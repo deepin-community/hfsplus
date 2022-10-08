@@ -1,0 +1,80 @@
+80,84c80
+< /* Utility function to count subdirectories. 
+<  *
+<  * Linux wants to know this but HFS+ does not know.
+<  * (Does linux really need this ?)
+<  */
+---
+> /* Utility function to count subdirectories */
+103c99
+< 			break; // End of current directory
+---
+> 			break;
+107c103
+< 		if(size < 2) // Unable tro retrive type, very bad ...
+---
+> 		if(size < 2)
+115,116d110
+< /* Compare two catalog keys liek strcmp */
+< 
+120d113
+< 	hfsplus_unistr* u1, *u2;
+124,130c117,120
+< 	int diff = k2p - k1p;
+< 	u1 = &k1->u.cat.name; // Feed he RISC pipeline
+< 	u2 = &k2->u.cat.name;	
+< 	if (!diff) 
+< 		diff = hfsplus_unistrcmp(u1, u2);
+< 
+< 	return diff;
+---
+> 	if(k1p != k2p) {
+> 		return (k1p < k2p) ? -1 : 1;
+> 	}
+> 	return hfsplus_unistrcmp(&(k1->u.cat.name), &(k2->u.cat.name));
+133d122
+< /* Intialize a catalog key by ist parent and name */
+144,145c133,135
+< 		int len = hfsplus_asc2uni(&(key->u.cat.name), name);
+< 		hfsp_put_hs(6 + len << 1, key->key_len);
+---
+> 		hfsplus_asc2uni(&(key->u.cat.name), name);
+> 		hfsp_put_hs(6 + 2 * hfsp_get_hs(key->u.cat.name.length),
+> 			    key->key_len);
+174d163
+< /* Convert an catalog entry (file or foler) into a linux inode */
+215,216c204
+< 	} else { // folder/file thread, not handled here.
+< 		 // Hasi: You could handle '..' here with the Folder thread
+---
+> 	} else {
+221,225d208
+< /* Find a folder thread (similar to linux '..') by its id
+<  *
+<  * returns value !=0 on succes.
+<  */
+< 
+232d214
+< 	hfsp_u8 type;
+239,242c221,222
+< 	if (!len)
+< 		return 0;
+< 	type = hfsp_get_hs(entry->type);	
+< 	if(type != HFSPLUS_FOLDER_THREAD)
+---
+> 	if(!len || ((hfsp_get_hs(entry->type) != HFSPLUS_FOLDER_THREAD) &&
+> 		    (hfsp_get_hs(entry->type) != HFSPLUS_FILE_THREAD))) {
+244,245c224
+< 	
+< 	// Hasi: I think this is already code elsewhere	, mmh
+---
+> 	}
+256,260c235,236
+< 	if (!len)
+< 		return 0;
+< 	type = hfsp_get_hs(entry->type);	
+< 	if((type != HFSPLUS_FOLDER) &&
+< 	   (type != HFSPLUS_FILE)) {
+---
+> 	if(!len || ((hfsp_get_hs(entry->type) != HFSPLUS_FOLDER) &&
+> 		    (hfsp_get_hs(entry->type) != HFSPLUS_FILE))) {

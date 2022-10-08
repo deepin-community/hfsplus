@@ -1,0 +1,25 @@
+Author: Reiner Herrmann <reiner@reiner-h.de>
+Description: Allow setting CFLAGS externally
+
+--- a/libhfsp/src/Makefile.am
++++ b/libhfsp/src/Makefile.am
+@@ -27,7 +27,7 @@
+ 	    blockiter.c btree.c btreecheck.c fscheck.c hfstime.c libhfsp.c os.c unicode.c \
+ 	    record.c volume.c partitions.c 
+ 
+-CFLAGS = -O2 -Wall
++CFLAGS ?= -O2 -Wall
+ 
+ # I need to clean up these headers first before i can distribute them ...		
+ # include_HEADERS = apple.h hfs.h hfsp.h libhfsp.h 
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -8,7 +8,7 @@
+ 
+ INCLUDES = -I../libhfsp/src
+ 
+-CFLAGS = -O2 -Wall
++CFLAGS ?= -O2 -Wall
+ 
+ bin_PROGRAMS = hpmount hpumount hpls hpcd hpcopy hppwd hpfsck hprm hpmkdir
+ 

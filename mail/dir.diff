@@ -1,0 +1,84 @@
+14,21d13
+< /* What is this ?
+<  *
+<  * f -
+<  * b -
+<  * c -
+<  * p -
+<  */
+< 
+27,28d18
+< /* operations for directory inodes, compare with file.c */
+< 
+70,77d59
+< /* Find an entry in a directory given by ?
+<  *
+<  * filp    - directory to seek (better would be dirp)
+<  * offset  - ?
+<  * origin  - 1: ... 2: ... else: ...
+<  * returns ?
+<  */
+< 
+94d75
+< 	// Hasi: default: return -1; // illegal origin
+105d85
+< 		// Hasi: Remove old iterator (cannot be reused ?)
+121d100
+< 			// Hasi: store iterator for ???
+129,136d107
+< /* read a directory by filling the filldir structure ?
+<  * 
+<  * filep   - directory to read (shoud better be dirp)
+<  * dirent
+<  * filldir - ?
+<  * returns ?
+<  */
+< 
+170,175d140
+< 
+< 	// Hasi: better handle the directory cases ('.','..') outside the loop
+< 	//       You'll avoid these invariant f_pos tests. better make 
+< 	//	 f_pos a normal variable (if possible ?) should be much faster.
+< 
+< 	// for all directory entries ...
+184d148
+< 		// Create '.' entry for first entry (= directory thread ?)
+188,192c152
+< 		} 
+< 		else if(filp->f_pos == 1) 
+< 		    // Create '..' synthetical entry for second entry from thread
+< 		    // retrieved at pos = 0
+< 		{
+---
+> 		} else if(filp->f_pos == 1) {
+197c157
+< 			if(len < 8) { // Minimum key size 
+---
+> 			if(len < 8) {
+205c165
+< 			if(len < 12) { // Minum key with non empty string
+---
+> 			if(len < 12) {
+209,210d168
+< 			// Hasi: since both ids are at the same position
+< 			// Yo can treat folder and file the same way
+225c183
+< 		if(filp->f_pos) { // Hasi: cannot happen when compiler is sane :)
+---
+> 		if(filp->f_pos) {
+241,243d198
+< /* open a directory: intialize any privat data structure as neede.
+<  */
+< 
+250,251d204
+< /* release a directory: remove any privat data structures as neede.
+<  */
+260,264d212
+< /* Lookup dentry in dir, returns correctly filled dentry (?)
+<  *
+<  * Always retunrs NULL ?!
+<  */ 
+< 
+294,295d241
+< 	// Hasi: since both ids are at the same position
+< 	// Yo can treat folder and file the same way

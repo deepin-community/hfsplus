@@ -1,0 +1,45 @@
+Source: hfsplus
+Section: otherosfs
+Priority: optional
+Maintainer: Debian QA Group <packages@qa.debian.org>
+Build-Depends: debhelper (>= 9), dh-autoreconf,
+ docbook-to-man,
+Standards-Version: 3.9.8
+Vcs-Git: https://salsa.debian.org/debian/hfsplus.git
+Vcs-Browser: https://salsa.debian.org/debian/hfsplus
+
+Package: libhfsp0
+Architecture: linux-any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Shared library to access HFS+ formatted volumes
+ HFS+ is a modernized version of Apple Computers HFS Filesystem.
+ Nowadays, it is widely used with more recent versions of MacOS.
+ hfsplus consists of a library and a set of tools that allow access
+ to HFS+ volumes.
+ .
+ This package contains a shared version of the library.
+
+Package: hfsplus
+Architecture: linux-any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Tools to access HFS+ formatted volumes
+ HFS+ is a modernized version of Apple Computers HFS Filesystem.
+ Nowadays, it is widely used with more recent versions of MacOS.
+ hfsplus consists of a library and a set of tools that allow access
+ to HFS+ volumes.
+ .
+ This package contains the tools themselves.
+
+Package: libhfsp-dev
+Architecture: linux-any
+Section: libdevel
+Depends: libhfsp0 (= ${binary:Version}), libc6-dev, ${misc:Depends}
+Description: Library to access HFS+ formatted volumes
+ HFS+ is a modernized version of Apple Computers HFS Filesystem.
+ Nowadays, it is widely used with more recent versions of MacOS.
+ hfsplus consists of a library and a set of tools that allow access
+ to HFS+ volumes.
+ .
+ This package contains everything you need to write programs that use
+ this library, i.e. header files and an archive version of the library.

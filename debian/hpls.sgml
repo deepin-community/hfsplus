@@ -1,0 +1,345 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+  <!ENTITY debian   "<productname>Debian GNU/Linux</productname>">
+  <!ENTITY hfsplus  "<productname>hfsplus</productname>">
+  <!ENTITY hfsutils "<productname>hfsutils</productname>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      <email>jensen@debian.org</email>
+    </address>
+    <author>
+      <firstname>Jens</firstname>
+      <surname>Schmalzing</surname>
+    </author>
+    <date>Mar 13 2001</date>
+  </refentryinfo>
+  <refmeta>
+    <refentrytitle>hpls</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+  <refnamediv>
+    <refname>hpls</refname>
+    <refpurpose>list the contents of a directory on an HFS+ volume</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>hpls</command>
+      <arg choice="opt"><option>options</option></arg>
+      <arg choice="opt"><replaceable>hfs-path ...</replaceable></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+    
+    <para>
+      <command>hpls</command> is used to list files and directories on
+      an HFS+ volume.  If one or more arguments are given, each file
+      or directory is shown; otherwise, the contents of the current
+      working directory are displayed.
+    </para>
+    
+  </refsect1>
+
+  <refsect1>
+    <title>Options</title>
+
+    <variablelist>
+
+      <varlistentry>
+	<term><option>-1</option></term>
+	<listitem>
+	  <para>
+	    Each entry appears on a line by itself.  This is the
+	    default if standard output is not a terminal.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-a</option></term>
+	<listitem>
+	  <para>
+	    All entries are shown, including &quot;invisible&quot;
+	    files.  The default is to omit invisible files.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+<!-- Whatever this option does, it does *not* what is described here -->
+<!--        <varlistentry> -->
+<!--  	<term><option>-b</option></term> -->
+<!--  	<listitem> -->
+<!--  	  <para> -->
+<!--  	    Special  characters  are  displayed  in  an escaped -->
+<!--  	    backslash notation. Normally special or  non-print- -->
+<!--  	    able  characters  in  filenames  are  replaced by a -->
+<!--  	    question mark (?). -->
+<!--  	  </para> -->
+<!--  	</listitem> -->
+<!--        </varlistentry> -->
+
+      <varlistentry>
+	<term><option>-c</option></term>
+	<listitem>
+	  <para>
+	    Sort and display entries by their creation date, rather
+	    than their modification date.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-d</option></term>
+	<listitem>
+	  <para>
+	    List directory entries themselves rather than their
+	    contents. Normally the contents are shown for named
+	    directories on the command-line.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+<!-- This option appears to do nothing -->
+<!--        <varlistentry> -->
+<!--  	<term><option>-f</option></term> -->
+<!--  	<listitem> -->
+<!--  	  <para> -->
+<!--  	    Do not sort directory contents; list them in the order -->
+<!--  	    they appear in the directory.  This option effectively -->
+<!--  	    enables <option>-a</option> and <option>-U</option> and -->
+<!--  	    disables <option>-l</option>, <option>-s</option>, and -->
+<!--  	    <option>-t</option>. -->
+<!--  	  </para> -->
+<!--  	</listitem> -->
+<!--        </varlistentry> -->
+
+      <varlistentry>
+	<term><option>-i</option></term>
+	<listitem>
+	  <para>
+	    Show the catalogue ID for each entry.  Every file and
+	    directory on an HFS+ volume has a unique catalogue ID.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-l</option></term>
+	<listitem>
+	  <para>
+	    Display entries in long format.  This format shows the
+	    entry type (&quot;d&quot; for directory, &quot;f&quot; for
+	    file, &quot;F&quot; for locked file), flags (&quot;i&quot;
+	    for invisible), type and creator (four-character strings)
+	    for files only, size (number of items in a directory or
+	    resource and data bytes of a file, respectively), date of
+	    last modification (or creation if the <option>-c</option>
+	    flag is given), and name.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-m</option></term>
+	<listitem>
+	  <para>
+	    Display entries in a continuous format separated by
+	    commas.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-q</option></term>
+	<listitem>
+	  <para>
+	    Replace special and non-printable characters in displayed
+	    filenames with question marks (?).  This is the default
+	    when standard output is a terminal.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-r</option></term>
+	<listitem>
+	  <para>
+	    Sort entries in reverse order before displaying.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-s</option></term>
+	<listitem>
+	  <para>
+	    Show the file size for each entry in 1K block units.  The
+	    size includes blocks used for both data and resource
+	    forks.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-t</option></term>
+	<listitem>
+	  <para>
+	    Sort and display entries by time.  Normally files will be
+	    sorted by name. This option uses the last modification
+	    date to sort unless <option>-c</option> is also specified.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-x</option></term>
+	<listitem>
+	  <para>
+	    Display entries in column format like <option>-C</option>,
+	    but sorted horizontally into rows rather than columns.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-w</option> <replaceable>width</replaceable></term>
+	<listitem>
+	  <para>
+	    Format output lines suitable for display in the given
+	    width.  Normally the width will be determined from your
+	    terminal, from the environment variable
+	    <envar>COLUMNS</envar>, or from a default value of 80.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-C</option></term>
+	<listitem>
+	  <para>
+	    Display entries in column format with entries sorted
+            vertically.  This is the default output format when
+            standard output is a terminal.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-F</option></term>
+	<listitem>
+	  <para>
+	     Cause certain output filenames to be followed by a
+              single-character flag indicating the nature of the
+              entry; directories are followed by a slash &quot;/&quot;
+              and executable Macintosh applications are followed by an
+              asterisk &quot;*&quot;.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-N</option></term>
+	<listitem>
+	  <para>
+	    Cause all filenames to be output verbatim without
+	    question-mark substitution.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+<!-- Just like the -b option, this produces just a lot of garbage -->
+<!--        <varlistentry> -->
+<!--  	<term><option>-Q</option></term> -->
+<!--  	<listitem> -->
+<!--  	  <para> -->
+<!--  	    Cause all filenames to be enclosed within double-quotes -->
+<!--  	    (&quot;) and special/non-printable characters to be -->
+<!--  	    properly escaped. -->
+<!--  	  </para> -->
+<!--  	</listitem> -->
+<!--        </varlistentry> -->
+
+      <varlistentry>
+	<term><option>-R</option></term>
+	<listitem>
+	  <para>
+	    For each directory that is encountered in a listing,
+	    recursively descend into and display its contents.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+<!-- This option apparently does not work -->
+<!--        <varlistentry> -->
+<!--  	<term><option>-S</option></term> -->
+<!--  	<listitem> -->
+<!--  	  <para> -->
+<!--  	    Sort  and  display  entries by size. For files, the -->
+<!--  	    combined resource and data lengths are used to com- -->
+<!--  	    pute a file's size. -->
+<!--  	  </para> -->
+<!--  	</listitem> -->
+<!--        </varlistentry> -->
+
+<!-- This option apparently does not work -->
+<!--        <varlistentry> -->
+<!--  	<term><option>-U</option></term> -->
+<!--  	<listitem> -->
+<!--  	  <para> -->
+<!--  	    Do not sort directory contents; list them in the order -->
+<!--  	    they appear in the directory.  On HFS+ volumes, this is -->
+<!--  	    usually an alphabetical case-insensitive ordering, -->
+<!--  	    although there are some idiosyncrasies to the Macintosh -->
+<!--  	    implementation of ordering.  This option does not affect -->
+<!--  	    <option>-a</option>, <option>-l</option>, or -->
+<!--  	    <option>-s</option>. -->
+<!--  	  </para> -->
+<!--  	</listitem> -->
+<!--        </varlistentry> -->
+
+    </variablelist>
+
+  </refsect1>
+  
+  <refsect1>
+    <title>See also</title>
+
+    <para>
+      hfsplus(7), hpmount(1), hpcd(1), hppwd(1), hprm(1), hpmkdir(1), hpcopy(1), hpumount(1), hpfsck(1).
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>Author</title>
+
+    <para>
+      This manual page was written by Jens Schmalzing
+      <email>&lt;jensen@debian.org&gt;</email> for &debian; using the
+      manual page by Klaus Halfmann
+      <email>&lt;halfmann@libra.de&gt;</email> that comes with the
+      source code and documentation from the <productname>Tech Info
+      Library</productname>.
+    </para>
+  </refsect1>
+
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

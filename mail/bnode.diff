@@ -1,0 +1,79 @@
+117d116
+< /* release all the data associated with the bnode */
+138,142d136
+< /* Read a node into the node buffer (?)
+<  *
+<  * off -
+<  * retunrs ...
+<  */
+183,188d176
+< /*  read bytes from node n into pointer "buf" starting at "off" with "len" ?
+<  *
+<  *  A Node may consist of more than one buf corresponding to a disk block (?)
+<  *  
+<  *  return 0 on error, 1 on succes.
+<  */
+217c205
+< 	} // else numbufs != (>) 1
+---
+> 	}
+241,248d228
+< /* At the end of each node there a backpointers to 
+<  *	the keys/records of the node.
+<  *
+<  * return the offset of the record given by rec.
+<  * return 0 on error (0 is no valid value because each node
+<  *	  starts with a node header.)
+<  */
+< 
+255c235
+< 		printk("bad recnum %d in hfsplus_brec_off\n",rec);
+---
+> 		printk("bad recnum\n");
+267,274d246
+< /* At the end of each node there a backpointers to 
+<  *	the keys/records of the node.
+<  *
+<  * return the length of the record given by rec.
+<  * return 0 on error (0 is no valid value because each node
+<  *	  starts with a node header.)
+<  */
+< 
+281c253
+< 		printk("bad recnum %d in hfsplus_brec_len\n",rec);
+---
+> 		printk("bad recnum\n");
+290,291d261
+< 	// The empty space has an offest of its own so this
+< 	// will always work.
+303,314d272
+< /* read the record with index rec in the bnode into buf with len
+<  *	, skipping skip bytes.
+<  *
+<  *  Hasi: Im going to intodruce a node buffer in my code to avoid
+<  *	  the problems you are fighting against here. When
+<  *	  You can assume that the node is completly in one
+<  *	  area of memory you can be much faster.
+<  *
+<  *	  I currently always read twice the blocksize, so I
+<  *	  have no problems with block boundaries, at a cost.
+<  */
+< 
+335,342d292
+< /* At the end of each node there a backpointers to 
+<  *	the keys/records of the node.
+<  *
+<  * return the length of the key given by rec.
+<  * return 0 on error (0 is no valid value because each node
+<  *	  starts with a node header.)
+<  */
+< 
+355,360c305
+< /* Get the key for a record, but only copy into given buffer if needed.
+<  *
+<  * When forcecopy is not set the retuned pointer will become invalid
+<  * at any time later.
+<  */
+< 
+---
+> /* Get the key for a record, but only copy into given buffer if needed */

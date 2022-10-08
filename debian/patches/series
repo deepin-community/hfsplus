@@ -1,0 +1,13 @@
+120137_ftbfs_hppa_gcc3.0.dpatch
+147838_sigbus_sparc.dpatch
+231270_hpmount_destroys_hfs_volume_headers.dpatch
+277810_ftbfs_include_gcc3.4.dpatch
+286366_ftbfs_amd64_gcc4.0.dpatch
+300289_ftbfs_ppc64_gcc4.0.dpatch
+334016_broken_bswab_inc_macros.dpatch
+396180_remove_unused_header.dpatch
+99_types.dpatch
+remove_duplicate_function_definitions.patch
+548257_use_printf_macros.patch
+dont_overwrite_cflags.patch
+957336_ftbfs-gcc10.patch

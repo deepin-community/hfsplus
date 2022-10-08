@@ -1,0 +1,745 @@
+Author: Laurent Vivier <laurent@vivier.eu>
+Description: Fix compiler warnings by using printf macros
+Bug-Debian: https://bugs.debian.org/548257
+
+Index: hfsplus-1.0.4/libhfsp/src/btreecheck.c
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/btreecheck.c	2009-09-24 23:30:16.000000000 +0200
++++ hfsplus-1.0.4/libhfsp/src/btreecheck.c	2009-09-24 23:31:27.000000000 +0200
+@@ -34,6 +34,7 @@
+ # include <limits.h>
+ # include <errno.h>
+ # include <time.h>
++# include <inttypes.h>
+ 
+ # include "libhfsp.h"
+ # include "volume.h"
+@@ -57,7 +58,7 @@
+ {
+     char buf[255]; // mh this _might_ overflow 
+     unicode_uni2asc(buf, &key->name, 255);   
+-    printf("parent cnid         : %ld\n",   key->parent_cnid);
++    printf("parent cnid         : %" PRIu32 "\n",   key->parent_cnid);
+     printf("name                : %s\n", buf);
+ }
+ 
+@@ -87,19 +88,19 @@
+     */
+     if (head->root >= node_count)
+     {
+-	printf("root node out of range %lX >= %lX\n",
++	printf("root node out of range %" PRIX32 " >= %" PRIX32 "\n",
+ 		head->root, node_count);
+ 	result |= FSCK_ERR; // This is really evil
+     }
+     if (head->leaf_head >= node_count)
+     {
+-	printf("leaf_head out of range %lX >= %lX\n", 
++	printf("leaf_head out of range %" PRIX32 " >= %" PRIX32 "\n",
+ 		head->leaf_head, node_count);
+ 	result |= FSCK_ERR; // dont know how to fix that by now
+     }
+     if (head->leaf_tail >= node_count)
+     {
+-	printf("leaf_head out of range %lX >= %lX\n", 
++	printf("leaf_head out of range %" PRIX32 " >= %" PRIX32 "\n",
+ 		head->leaf_tail, node_count);
+ 	result |= FSCK_ERR; // dont know how to fix that by now
+     }
+@@ -117,14 +118,14 @@
+     }
+     if (head->free_nodes >= node_count)
+     {
+-	printf("free_nodes out of range %lX >= %lX\n", 
++	printf("free_nodes out of range %" PRIX32 " >= %" PRIX32 "\n",
+ 		head->free_nodes, node_count);
+ 	result |= FSCK_ERR; // dont know how to fix that by now
+     }
+     // head->reserved1	nothing to check here
+     if (head->clump_size % blocksize)
+     {
+-	printf("clump_size %ld not a multiple of blocksize %ld\n", 
++	printf("clump_size %" PRIu32 " not a multiple of blocksize %" PRIu32 "\n",
+ 		head->free_nodes, blocksize);
+ 	result |= FSCK_ERR; // dont know how to fix that by now
+     }
+@@ -136,7 +137,7 @@
+     // head->reserved2  nothing to check here
+     if (head->attributes & HFSPLUS_TREE_RESERVED)
+     {
+-	printf("Unexpected bits in btree header node attributes %lX\n",
++	printf("Unexpected bits in btree header node attributes %" PRIX32 "\n",
+ 	    head->attributes);
+ 	result |= FSCK_ERR; // dont know how to fix that by now
+     }
+@@ -149,16 +150,16 @@
+ {
+     UInt32 attr;
+     printf("  depth       : %#X\n",  head->depth);
+-    printf("  root        : %#lX\n", head->root);
+-    printf("  leaf_count  : %#lX\n", head->leaf_count);
+-    printf("  leaf_head   : %#lX\n", head->leaf_head);
+-    printf("  leaf_tail   : %#lX\n", head->leaf_tail);
++    printf("  root        : %#" PRIX32 "\n", head->root);
++    printf("  leaf_count  : %#" PRIX32 "\n", head->leaf_count);
++    printf("  leaf_head   : %#" PRIX32 "\n", head->leaf_head);
++    printf("  leaf_tail   : %#" PRIX32 "\n", head->leaf_tail);
+     printf("  node_size   : %#X\n",  head->node_size);
+     printf("  max_key_len : %#X\n",  head->max_key_len);
+-    printf("  node_count  : %#lX\n", head->node_count);
+-    printf("  free_nodes  : %#lX\n", head->free_nodes);
++    printf("  node_count  : %#" PRIX32 "\n", head->node_count);
++    printf("  free_nodes  : %#" PRIX32 "\n", head->free_nodes);
+     printf("  reserved1   : %#X\n",  head->reserved1);
+-    printf("  clump_size  : %#lX\n", head->clump_size);
++    printf("  clump_size  : %#" PRIX32 "\n", head->clump_size);
+     printf("  btree_type  : %#X\n",  head->btree_type);
+     attr = head->attributes;
+     printf("  reserved2   : %#X\n",  head->reserved2);
+@@ -183,9 +184,9 @@
+ 
+ static void print_node_desc(UInt32 nodeIndex, btree_node_desc* node)
+ {
+-    printf("Node descriptor for Node %ld\n", nodeIndex);
+-    printf("next     : %#lX\n", node->next);
+-    printf("prev     : %#lX\n", node->prev);
++    printf("Node descriptor for Node %" PRIu32 "\n", nodeIndex);
++    printf("next     : %#" PRIX32 "\n", node->next);
++    printf("prev     : %#" PRIX32 "\n", node->prev);
+     printf("height   : %#X\n",  node->height);
+     printf("num_rec  : %d\n",   node->num_rec);
+     printf("reserved : %#X\n",  node->reserved);
+@@ -225,13 +226,14 @@
+ 		 HFSP_EXTENT_DATA, bt->cnid);
+     if (!p)
+     {
+-	printf("Unable to read block 1 of b*tree for cnid:%ld\n", bt->cnid);
++	printf("Unable to read block 1 of b*tree for cnid:%" PRIu32 "\n",
++               bt->cnid);
+ 	return FSCK_ERR;
+     }
+     p = btree_readnode(node, p);
+     if (node->prev != 0)
+     {
+-	printf("Backlink of header node is not zero (%lX) \n", node->prev);
++	printf("Backlink of header node is not zero (%" PRIX32 ") \n", node->prev);
+ 	return FSCK_ERR; // ToDo: We might ignore it but ???
+     }
+     if (node->kind != HFSP_NODE_HEAD)
+@@ -363,7 +365,7 @@
+     }
+     if (fsck_data.verbose)
+     {
+-	printf("Node %4ld, Record %2d is at pos %04X,"
++	printf("Node %4" PRIu32 ", Record %2d is at pos %04X,"
+ 	       "Backptr is at offset %04X\n", node, index, offset, off_pos);
+     }
+     // now we have the offset and can read the key ...
+@@ -392,7 +394,7 @@
+     void*	     current = node->node + 0x0E; // sizeof (btree_node_desc)
+     char	     kbuf[bt->head.max_key_len]; // dummy key to skip over
+     char	     buf[bt->max_rec_size]; 
+-    fprintf(stderr, "Node %lu with %u records is damaged trying to fix ***\n",
++    fprintf(stderr, "Node %" PRIu32 " with %u records is damaged trying to fix ***\n",
+ 		nodeIndex, num_rec);
+     for (i=0; i < num_rec; i++)
+     {
+@@ -402,7 +404,7 @@
+ 	if (p != current)
+ 	{
+ 	    fprintf(stderr, 
+-		"Key %u in Node %lu is damaged "
++		"Key %u in Node %" PRIu32 " is damaged "
+ 		"rest of keys will be droppend ***\n", i,nodeIndex);
+ 	    break;
+ 	}
+@@ -450,7 +452,7 @@
+ 	if (p < previous)
+ 	{   // This may happen when the cache entry was flushed, but per
+ 	    // design of the cache this should not happen, mmh
+-	    printf("Backpointers in Node %ld index %d out of order "
++	    printf("Backpointers in Node %" PRIu32 " index %d out of order "
+ 		   "(%p >= %p)\n", nodeIndex, i, p, previous);
+ 	    result |= FSCK_FSCORR;	// Hope we can correct that later
+ 	}
+@@ -471,7 +473,7 @@
+ 	    int comp = bt->kcomp(*key1, *key2);
+ 	    if (comp > 0)
+ 	    {
+-		printf("Invalid key order in node %ld record %d\n key1=",
++		printf("Invalid key order in node %" PRIu32 " record %d\n key1=",
+ 			nodeIndex, i);
+ 		record_print_key((hfsp_cat_key*) *key1);
+ 		printf("Invalid key order key2=\n");
+@@ -480,7 +482,7 @@
+ 	    }
+ 	    if (comp == 0 && i > 0) // equal to key in parent node is ok
+ 	    {
+-		printf("Duplicate key in node %ld record %d key1=\n",
++		printf("Duplicate key in node %" PRIu32 " record %d key1=\n",
+ 			nodeIndex, i);
+ 		record_print_key((hfsp_cat_key*) *key1);
+ 		printf("Duplicate key key2=\n");
+@@ -535,10 +537,10 @@
+ /* print permissions */
+ static void record_print_perm(hfsp_perm* perm)
+ {
+-    printf("owner               : %ld\n",  perm->owner);
+-    printf("group               : %ld\n",  perm->group);
+-    printf("perm                : 0x%lX\n",perm->mode);
+-    printf("dev                 : %ld\n",  perm->dev);
++    printf("owner               : %" PRIu32 "\n",  perm->owner);
++    printf("group               : %" PRIu32 "\n",  perm->group);
++    printf("perm                : 0x%" PRIX32 "\n",perm->mode);
++    printf("dev                 : %" PRIu32 "\n",  perm->dev);
+ }
+ 
+ /* print Directory info */
+@@ -554,17 +556,17 @@
+ static void record_print_DXInfo(DXInfo* xinfo)
+ {
+     printf(  "frScroll            : ");    record_print_Point(&xinfo->frScroll);
+-    printf("\nfrOpenChain         : %ld\n",  xinfo->frOpenChain);
++    printf("\nfrOpenChain         : %" PRIu32 "\n",  xinfo->frOpenChain);
+     printf(  "frUnused            : %d\n",   xinfo->frUnused);
+     printf(  "frComment           : %d\n",   xinfo->frComment);
+-    printf(  "frPutAway           : %ld\n",  xinfo->frPutAway);
++    printf(  "frPutAway           : %" PRIu32 "\n",  xinfo->frPutAway);
+ }
+ 
+ static void record_print_folder(hfsp_cat_folder* folder)
+ {
+     printf("flags               : 0x%X\n",	folder->flags);
+-    printf("valence             : 0x%lX\n",	folder->valence);
+-    printf("id                  : %ld\n",	folder->id);
++    printf("valence             : 0x%" PRIX32 "\n",	folder->valence);
++    printf("id                  : %" PRIu32 "\n",	folder->id);
+     printf("create_date         : %s",	get_atime(folder->create_date));
+     printf("content_mod_date    : %s",	get_atime(folder->content_mod_date));
+     printf("attribute_mod_date  : %s",	get_atime(folder->attribute_mod_date));
+@@ -573,8 +575,8 @@
+     record_print_perm	(&folder->permissions);
+     record_print_DInfo	(&folder->user_info);
+     record_print_DXInfo	(&folder->finder_info);
+-    printf("text_encoding       : 0x%lX\n",	folder->text_encoding);
+-    printf("reserved            : 0x%lX\n",	folder->reserved);
++    printf("text_encoding       : 0x%" PRIX32 "\n",	folder->text_encoding);
++    printf("reserved            : 0x%" PRIX32 "\n",	folder->reserved);
+ }
+ 
+ /* print File info */
+@@ -593,15 +595,15 @@
+     printf(  "fdIconID            : %d\n",   xinfo->fdIconID);
+     // xinfo -> fdUnused;
+     printf(  "fdComment           : %d\n",   xinfo->fdComment);
+-    printf(  "fdPutAway           : %ld\n",  xinfo->fdPutAway);
++    printf(  "fdPutAway           : %" PRIu32 "\n",  xinfo->fdPutAway);
+ } 
+ 
+ /* print file entry */
+ static void record_print_file(hfsp_cat_file* file)
+ {
+     printf("flags               : 0x%X\n",	file->flags);
+-    printf("reserved1           : 0x%lX\n",	file->reserved1);
+-    printf("id                  : %ld\n",	file->id);
++    printf("reserved1           : 0x%" PRIX32 "\n",	file->reserved1);
++    printf("id                  : %" PRIu32 "\n",	file->id);
+     printf("create_date         : %s",	get_atime(file->create_date));
+     printf("content_mod_date    : %s",	get_atime(file->content_mod_date));
+     printf("attribute_mod_date  : %s",	get_atime(file->attribute_mod_date));
+@@ -610,8 +612,8 @@
+     record_print_perm	(&file->permissions);
+     record_print_FInfo	(&file->user_info);
+     record_print_FXInfo	(&file->finder_info);
+-    printf("text_encoding       : 0x%lX\n",	file->text_encoding);
+-    printf("reserved            : 0x%lX\n",	file->reserved2);
++    printf("text_encoding       : 0x%" PRIX32 "\n",	file->text_encoding);
++    printf("reserved            : 0x%" PRIX32 "\n",	file->reserved2);
+     printf("Datafork:\n");
+     print_fork (&file->data_fork);
+     printf("Rsrcfork:\n");
+@@ -623,7 +625,7 @@
+ {
+     char buf[255]; // mh this _might_ overflow 
+     unicode_uni2asc(buf, &entry->nodeName, 255);   
+-    printf("parent cnid         : %ld\n", entry->parentID);
++    printf("parent cnid         : %" PRIu32 "\n", entry->parentID);
+     printf("name                : %s\n" , buf);
+ }
+ 
+@@ -691,7 +693,7 @@
+ 
+     if (key->parent_cnid >= cnid)
+     {
+-	printf("parent_cnid %ld >= volume next cnid %ld\n", 
++	printf("parent_cnid %" PRIu32 " >= volume next cnid %" PRIu32 "\n",
+ 		    key->parent_cnid, cnid);
+ 	result |= FSCK_FSCORR; // hope we can fix that some time
+     }
+@@ -710,7 +712,7 @@
+ 	printf("Warning %s is 0\n", errname);
+     */
+     if (time > fsck_data.macNow)
+-	printf("Warning %21.21s is in the future: (%lX) %s", 
++	printf("Warning %21.21s is in the future: (%" PRIX32 ") %s",
+ 		errname, time, get_atime(time));
+ 
+     return FSCK_NOERR;	// Those are not really bad, just annoying
+@@ -732,7 +734,7 @@
+     // file->reserved1	// Nothing to check here
+     if (file->id >= cnid)
+     {
+-	printf("file id %ld >= volume next cnid %ld\n", 
++	printf("file id %" PRIu32 " >= volume next cnid %" PRIu32 "\n",
+ 		    file->id, cnid);
+ 	result |= FSCK_FSCORR; // hope we can fix that some time
+     }
+@@ -769,7 +771,7 @@
+     // folder->valence	// to be checked later
+     if (folder->id >= cnid)
+     {
+-	printf("Folder id %ld >= volume next cnid %ld\n", 
++	printf("Folder id %" PRIu32 " >= volume next cnid %" PRIu32 "\n",
+ 		    folder->id, cnid);
+ 	result |= FSCK_FSCORR; // hope we can fix that some time
+     }
+@@ -798,7 +800,7 @@
+ 
+     if (thread->parentID >= cnid)
+     {
+-	printf("Thread parentID %ld >= volume next cnid %ld\n", 
++	printf("Thread parentID %" PRIu32 " >= volume next cnid %" PRIu32 "\n",
+ 		    thread->parentID, cnid);
+ 	result |= FSCK_FSCORR; // hope we can fix that some time
+     }
+@@ -899,7 +901,7 @@
+     {		// structure (should happen while debugging only)
+ 	fprintf(stderr, 
+ 	    "Unexpected difference in Node %d, Record %d "
+-	    ": %d (%d/%d) (%p,%p)\n",
++	    ": %d (%ld/%ld) (%p,%p)\n",
+ 	    r->node_index, index, diff , p - p1, p2 - p1, p, p2);
+ 	record_print(r);
+     }
+@@ -947,7 +949,7 @@
+ 
+     if (!btree_check_nodealloc(catalog, catalog->head.leaf_head))
+     {
+-	printf("leaf_head %ld not allocated in node Map\n",
++	printf("leaf_head %" PRIu32 " not allocated in node Map\n",
+ 		catalog->head.leaf_head);
+ 	result |= FSCK_FSCORR; /* Maybe we can correct that one time */
+     }
+Index: hfsplus-1.0.4/libhfsp/src/os.c
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/os.c	2002-03-25 16:48:37.000000000 +0100
++++ hfsplus-1.0.4/libhfsp/src/os.c	2009-09-24 23:31:27.000000000 +0200
+@@ -46,6 +46,7 @@
+ # endif
+ 
+ # include <stdio.h>
++# include <stdlib.h>
+ 
+ 
+ # include <errno.h>
+@@ -66,7 +67,7 @@
+  */
+ int os_open(void **priv, const char *path, int mode)
+ {
+-  int fd;
++  long fd;
+   struct flock lock;
+   int	 c;
+ 
+@@ -123,7 +124,7 @@
+  */
+ int os_close(void **priv)
+ {
+-  int fd = (int) *priv;
++  long fd = (long) *priv;
+ 
+   *priv = (void *) -1;
+ 
+@@ -142,7 +143,7 @@
+  */
+ int os_same(void **priv, const char *path)
+ {
+-  int fd = (int) *priv;
++  long fd = (long) *priv;
+   struct stat fdev, dev;
+ 
+   if (fstat(fd, &fdev) == -1 ||
+@@ -163,7 +164,7 @@
+  */
+ unsigned long os_seek(void **priv, unsigned long offset, int blksize_bits)
+ {
+-    int	    fd = (int) *priv;
++    long	    fd = (long) *priv;
+     off_t   result, where = offset;
+ 
+     where  = os_offset + (where << blksize_bits);
+@@ -186,7 +187,7 @@
+  */
+ unsigned long os_read(void **priv, void *buf, unsigned long len, int blksize_bits)
+ {
+-    int fd = (int) *priv;
++    long fd = (long) *priv;
+     size_t result= 0;
+     int num= len << blksize_bits;
+ 
+@@ -208,7 +209,7 @@
+  */
+ unsigned long os_write(void **priv, const void *buf, unsigned long len, int blksize_bits)
+ {
+-  int fd = (int) *priv;
++  long fd = (long) *priv;
+   size_t result;
+ 
+   result = write(fd, buf, len << blksize_bits);
+Index: hfsplus-1.0.4/libhfsp/src/partitions.c
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/partitions.c	2002-03-26 19:00:29.000000000 +0100
++++ hfsplus-1.0.4/libhfsp/src/partitions.c	2009-09-24 23:31:27.000000000 +0200
+@@ -32,6 +32,7 @@
+ #include "libhfsp.h"
+ 
+ #include <stdlib.h>
++#include <string.h>
+ 
+ /*
+  * Returns the number of partitions in the given partition map.
+Index: hfsplus-1.0.4/libhfsp/src/record.c
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/record.c	2009-09-24 23:30:16.000000000 +0200
++++ hfsplus-1.0.4/libhfsp/src/record.c	2009-09-24 23:31:27.000000000 +0200
+@@ -31,7 +31,9 @@
+ # endif                                                                         
+ 
+ #include <errno.h>
++#include <string.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ 
+ #include "libhfsp.h"
+ #include "hfstime.h"
+@@ -1260,7 +1262,7 @@
+     // Find out where to insert the record
+     if (record_find_key(bt, &r->key, &keyind, &nodeind))
+ 	HFSP_ERROR(EEXIST, 
+-	hfsp_error = "File/Folder already exists");
++	           "File/Folder already exists");
+ 
+     // Create memory image
+     p = record_writekey  (p, &r->key);
+@@ -1273,7 +1275,7 @@
+     len = p - buf;
+     if (len > bt->max_rec_size) // Emergency bail out, sorry
+     {
+-	fprintf(stderr,"Unexpected Buffer overflow in record_insert %d > %d",
++	fprintf(stderr,"Unexpected Buffer overflow in record_insert %d > %ld",
+ 		len, sizeof(bt->max_rec_size));
+ 	exit(-1);
+     } 
+Index: hfsplus-1.0.4/libhfsp/src/unicode.c
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/unicode.c	2009-09-24 23:30:16.000000000 +0200
++++ hfsplus-1.0.4/libhfsp/src/unicode.c	2009-09-24 23:31:27.000000000 +0200
+@@ -102,8 +102,8 @@
+     register UInt16	length1 = ustr1->strlen;
+     register UInt16	length2 = ustr2->strlen;
+     register UInt16*    lowerCaseTable = gLowerCaseTable;
+-    register UInt16*	str1 = ustr1->name;
+-    register UInt16*	str2 = ustr2->name;
++    register UInt16*	str1 = (UInt16*)ustr1->name;
++    register UInt16*	str2 = (UInt16*)ustr2->name;
+ 
+     while (1) {
+         //  Set default values for c1, c2 in case there are no more valid chars
+Index: hfsplus-1.0.4/src/copyout.c
+===================================================================
+--- hfsplus-1.0.4.orig/src/copyout.c	2002-03-05 20:50:29.000000000 +0100
++++ hfsplus-1.0.4/src/copyout.c	2009-09-24 23:31:27.000000000 +0200
+@@ -144,7 +144,7 @@
+     void	    *p;
+ 
+ 	/* Mhh, this limits filenames to 63 characters */
+-    buf[1] = unicode_uni2asc(&buf[2], &ifile->key.name, 63);
++    buf[1] = (unsigned char)unicode_uni2asc((char*)&buf[2], &ifile->key.name, 63);
+ 
+     p = &buf[65];
+     bstoreU32_inc(p, file->user_info.fdType);	    // 65
+@@ -270,7 +270,7 @@
+     UInt64	    hsize;  // huge , HFS+ size
+     UInt32	    bsize;  // size supported by Macbinary
+ 
+-    byte = unicode_uni2asc(name, &ifile->key.name, 255);
++    byte = unicode_uni2asc((char*)name, &ifile->key.name, 255);
+     if (binhex_insert(&byte, 1) == -1 ||
+         binhex_insert(name, byte + 1) == -1)
+     {
+@@ -365,7 +365,7 @@
+     {
+         UInt32  block   = blockiter_curr(&iter);
+         int     result  = volume_readinbuf(vol, buf, block);
+-        size_t	size    = total > blksize ? blksize : total;
++        int	size    = total > blksize ? blksize : total;
+ 	size_t	bytes;
+ 	char	*latin1, *ptr, *ptrend;
+         if (result)
+Index: hfsplus-1.0.4/src/hpcache.c
+===================================================================
+--- hfsplus-1.0.4.orig/src/hpcache.c	2002-03-16 09:16:14.000000000 +0100
++++ hfsplus-1.0.4/src/hpcache.c	2009-09-24 23:31:27.000000000 +0200
+@@ -34,6 +34,7 @@
+ # include <string.h>
+ # include <errno.h>
+ # include <unistd.h>
++# include <inttypes.h>
+ 
+ #include "libhfsp.h"
+ #include "volume.h"
+@@ -102,7 +103,7 @@
+ 	return -1;
+     }
+ 
+-    params = fscanf(fd, "%255[^:]:%lu:%u",
++    params = fscanf(fd, "%255[^:]:%" PRIu32 ":%u",
+ 		volume_cache.vname, &volume_cache.cnid, &volume_cache.partition);
+     if (params < 2)
+     {
+@@ -128,7 +129,7 @@
+ 	return -1;
+     }
+ 
+-    fprintf(fd, "%s:%lu:%u", 
++    fprintf(fd, "%s:%" PRIu32 ":%u",
+ 	    volume_cache.vname, volume_cache.cnid, volume_cache.partition);
+ 
+     return 0;
+Index: hfsplus-1.0.4/src/hpls.c
+===================================================================
+--- hfsplus-1.0.4.orig/src/hpls.c	2002-03-17 18:20:39.000000000 +0100
++++ hfsplus-1.0.4/src/hpls.c	2009-09-24 23:31:27.000000000 +0200
+@@ -47,6 +47,7 @@
+ # include <string.h>
+ # include <time.h>
+ # include <ctype.h>
++# include <inttypes.h>
+ # include <errno.h>
+ 
+ # include "libhfsp.h"
+@@ -332,7 +333,7 @@
+     {
+ 	const unsigned char *ptr;
+ 
+-	for (ptr = path; *ptr; ++ptr)
++	for (ptr = (const unsigned char*)path; *ptr; ++ptr)
+ 	{
+ 	    char buf[5];
+ 	    const char *add = buf;
+@@ -408,9 +409,9 @@
+     if (flags & HPLS_CATIDS)
+     {
+         if (ent->record.type < HFSP_FOLDER_THREAD)
+-	    printf("%7lu ", ent->record.u.file.id);
++	    printf("%7" PRIu32 " ", ent->record.u.file.id);
+ 	else
+-	    printf("%7lu ", ent->record.u.thread.parentID);
++	    printf("%7" PRIu32 " ", ent->record.u.thread.parentID);
+     }
+     if (flags & HPLS_SIZE && 
+ 	ent->record.type == HFSP_FILE)
+@@ -476,7 +477,7 @@
+         if (ent->record.type == HFSP_FOLDER)
+ 	{
+ 	    hfsp_cat_folder* f = &ent->record.u.folder;
+-	    printf("d%c %9lu item%c               %s %s\n",
++	    printf("d%c %9" PRIu32 " item%c               %s %s\n",
+ 	       f->user_info.frFlags & HFS_FNDR_ISINVISIBLE ? 'i' : ' ',
+ 	       f->valence, f->valence == 1 ? ' ' : 's',
+ 	       timebuf + 4, strs[i]);
+Index: hfsplus-1.0.4/libhfsp/src/fscheck.c
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/fscheck.c	2009-09-24 23:30:16.000000000 +0200
++++ hfsplus-1.0.4/libhfsp/src/fscheck.c	2009-09-24 23:31:27.000000000 +0200
+@@ -36,6 +36,7 @@
+ # include <limits.h>
+ # include <errno.h>
+ # include <time.h>
++# include <inttypes.h>
+ 
+ # include "libhfsp.h"
+ # include "fscheck.h"
+@@ -53,13 +54,13 @@
+     int		    i;
+     hfsp_extent*    e;
+     printf("total_size          : %#LX\n"  , f->total_size);
+-    printf("clump_size          : %#lX\n"  , f->clump_size);
+-    printf("total_blocks        : %#lX\n"  , f->total_blocks);
++    printf("clump_size          : %#" PRIX32 "\n"  , f->clump_size);
++    printf("total_blocks        : %#" PRIX32 "\n"  , f->total_blocks);
+     printf("extents             : ");
+     for (i=0; i < 8; i++)
+     {
+ 	e = &f->extents[i];
+-	printf("(%#lX+%#lX) " , e->start_block,e->block_count);
++	printf("(%#" PRIX32 "+%#" PRIX32 ") " , e->start_block,e->block_count);
+     }
+     printf("\n");
+ }
+@@ -78,24 +79,24 @@
+     printf("signature       : %c%c\n" , ((char*)&vh->signature)[0], 
+ 					((char*)&vh->signature)[1]);
+     printf("version         : %u\n"	  , vh->version);
+-    printf("attributes      : %#lX\n"	  , vh->attributes);
++    printf("attributes      : %#" PRIX32 "\n"	  , vh->attributes);
+     printf("last_mount_vers : "); print_sig(vh->last_mount_vers);
+-    printf("\nreserved        : %lu\n"	  , vh->reserved);
++    printf("\nreserved        : %" PRIu32 "\n"	  , vh->reserved);
+ 	/* Hmm this is in local, apple time ... */
+     printf("create_date     : %s"	  , get_atime(vh->create_date));
+     printf("modify_date     : %s"	  , get_atime(vh->modify_date));
+     printf("backup_date     : %s"	  , get_atime(vh->backup_date));
+     printf("checked_date    : %s"	  , get_atime(vh->checked_date));
+-    printf("file_count      : %lu\n"	  , vh->file_count);
+-    printf("folder_count    : %lu\n"	  , vh->folder_count);
+-    printf("blocksize       : %lX\n"	  , vh->blocksize);
+-    printf("total_blocks    : %lu\n"	  , vh->total_blocks);
+-    printf("free_blocks     : %lu\n"	  , vh->free_blocks);
+-    printf("next_alloc      : %lu\n"	  , vh->next_alloc);
+-    printf("rsrc_clump_sz   : %lu\n"	  , vh->rsrc_clump_sz);
+-    printf("data_clump_sz   : %lu\n"	  , vh->data_clump_sz);
+-    printf("next_cnid       : %lu\n"	  , vh->next_cnid);
+-    printf("write_count     : %lu\n"	  , vh->write_count);
++    printf("file_count      : %" PRIu32 "\n"	  , vh->file_count);
++    printf("folder_count    : %" PRIu32 "\n"	  , vh->folder_count);
++    printf("blocksize       : %" PRIX32 "\n"	  , vh->blocksize);
++    printf("total_blocks    : %" PRIu32 "\n"	  , vh->total_blocks);
++    printf("free_blocks     : %" PRIu32 "\n"	  , vh->free_blocks);
++    printf("next_alloc      : %" PRIu32 "\n"	  , vh->next_alloc);
++    printf("rsrc_clump_sz   : %" PRIu32 "\n"	  , vh->rsrc_clump_sz);
++    printf("data_clump_sz   : %" PRIu32 "\n"	  , vh->data_clump_sz);
++    printf("next_cnid       : %" PRIu32 "\n"	  , vh->next_cnid);
++    printf("write_count     : %" PRIu32 "\n"	  , vh->write_count);
+     printf("encodings_bmp   : %#LX\n"	  , vh->encodings_bmp);
+     /* vv->finder_info, p, 32); */
+     printf("                  Allocation file\n");
+@@ -119,7 +120,7 @@
+     // vh->signature // already checked in read
+     // vh->version	// Current is 4 but I wont check that
+     if (attributes & HFSPLUS_VOL_RESERVED1)
+-	printf("Reserved attribute in use: %lX\n", 
++	printf("Reserved attribute in use: %" PRIX32 "\n",
+ 			    vh->attributes & HFSPLUS_VOL_RESERVED1);
+     if (! (attributes & HFSPLUS_VOL_UNMNT))
+ 	printf("Volume was not cleanly unmounted\n");
+@@ -130,12 +131,12 @@
+     if (attributes & HFSPLUS_VOL_INCNSTNT)
+ 	printf("Volume is inconsistent\n");
+     if (attributes & HFSPLUS_VOL_RESERVED2)
+-	printf("Reserved attribute in use: %lX\n", 
++	printf("Reserved attribute in use: %" PRIX32 "\n",
+ 			    vh->attributes & HFSPLUS_VOL_RESERVED2);
+     if (fsck_data.verbose && (attributes & HFSPLUS_VOL_SOFTLOCK))
+ 	printf("Volume is soft locked");
+     if (attributes & HFSPLUS_VOL_RESERVED3)
+-	printf("Reserved attribute in use: %lX\n", 
++	printf("Reserved attribute in use: %" PRIX32 "\n",
+ 			    vh->attributes & HFSPLUS_VOL_RESERVED3);
+     switch (vh->last_mount_vers)
+     {
+@@ -169,25 +170,25 @@
+     // vh->folder_count	// To be checked later
+     if (0 != (vh->blocksize % HFSP_BLOCKSZ)) // must be multiple of BLKSZ
+     {
+-	printf("Invalid Blocksize %lX\n", vh->blocksize);
++	printf("Invalid Blocksize %" PRIX32 "\n", vh->blocksize);
+ 	result = FSCK_ERR; // Wont try to correct that, yet.
+     }
+     {
+ 	UInt64 totalbytes    = vh->total_blocks * vh->blocksize;
+ 	UInt64 expectedbytes = vol->maxblocks << vol->blksize_bits;
+ 	if (totalbytes > expectedbytes)
+-	    printf("\nInvalid total blocks %lX, expected %lX", 
++	    printf("\nInvalid total blocks %" PRIX32 ", expected %" PRIX32,
+ 		vh->total_blocks, (UInt32)(expectedbytes / vh->blocksize));
+     }
+     if (vh->free_blocks	> vh->total_blocks)
+-	printf("More free blocks (%lX) than total (%lX) ?\n", 
++	printf("More free blocks (%" PRIX32 ") than total (%" PRIX32 ") ?\n",
+ 		    vh->free_blocks, vh->total_blocks);
+ 	// Check more later
+     // vh->next_alloc	// to be checked later
+     // vh->rsrc_clump_sz  // no check needed, is a hint only
+     // vh->data_clump_sz  // no check needed, is a hint only
+     if (vh->next_cnid <= HFSP_MIN_CNID) // wil hopefully be fixed later
+-	printf("Invalid next_cnid: %ld\n", vh->next_cnid);
++	printf("Invalid next_cnid: %" PRIu32 "\n", vh->next_cnid);
+ 	// Check more later
+     // vh->write_count	    // no check possible
+     // vh->encodings_bmp    // no check needed, is a hint only
+@@ -292,7 +293,7 @@
+ 	sect_per_block =  (drAlBlkSiz / HFSP_BLOCKSZ);  
+ 	if ((sect_per_block * HFSP_BLOCKSZ) != drAlBlkSiz)
+ 	{
+-	    printf("HFS Blocksize %lX is not multiple of %X\n", 
++	    printf("HFS Blocksize %" PRIX32 " is not multiple of %X\n",
+ 		    drAlBlkSiz, HFSP_BLOCKSZ);
+ 	    return FSCK_ERR; // Cant help it (for now)
+ 	}
+@@ -302,7 +303,7 @@
+ 		    << HFS_BLOCKSZ_BITS;
+ 	/* Now we can try to read the embedded HFS+ volume header */
+ 	if (fsck_data.verbose)
+-	    printf("Embedded HFS+ volume at 0x%LX (0x%lX) of 0x%X sized Blocks\n",
++	    printf("Embedded HFS+ volume at 0x%LX (0x%" PRIX32 ") of 0x%X sized Blocks\n",
+ 		    os_offset, vol->maxblocks, HFSP_BLOCKSZ);
+ 	return fscheck_volume_read(vol,vh,2);
+     }
+@@ -340,7 +341,7 @@
+ 	{
+ 	    if (!volume_allocated(vol, block))
+ 	    {
+-		printf("Warning block %lX not marked as allocated\n",block);
++		printf("Warning block %" PRIX32 " not marked as allocated\n",block);
+ 		errcount++;
+ 	    }
+ 	    count --;
+Index: hfsplus-1.0.4/libhfsp/src/swab.h
+===================================================================
+--- hfsplus-1.0.4.orig/libhfsp/src/swab.h	2009-09-24 23:30:16.000000000 +0200
++++ hfsplus-1.0.4/libhfsp/src/swab.h	2009-09-24 23:35:03.000000000 +0200
+@@ -36,13 +36,13 @@
+ 
+ #define bswabU16(val) bswap_16(val)
+ 
+-#define bswabU16_inc(ptr) bswap_16(*((UInt16*) (ptr))); ptr = (UInt16*)ptr + 1
+-#define bswabU32_inc(ptr) bswap_32(*((UInt32*) (ptr))); ptr = (UInt32*)ptr + 1
+-#define bswabU64_inc(ptr) bswap_64(*((UInt64*) (ptr))); ptr = (UInt64*)ptr + 1
+-
+-#define bstoreU16_inc(ptr, val) *((UInt16*) (ptr)) = bswap_16(val); ptr = (UInt16*)ptr + 1
+-#define bstoreU32_inc(ptr, val) *((UInt32*) (ptr)) = bswap_32(val); ptr = (UInt32*)ptr + 1;
+-#define bstoreU64_inc(ptr, val) *((UInt64*) (ptr)) = bswap_64(val); ptr = (UInt32*)ptr + 1;
++#define bswabU16_inc(ptr) bswap_16(*((UInt16*) (ptr))); ptr = (void*)((UInt16*)ptr + 1)
++#define bswabU32_inc(ptr) bswap_32(*((UInt32*) (ptr))); ptr = (void*)((UInt32*)ptr + 1)
++#define bswabU64_inc(ptr) bswap_64(*((UInt64*) (ptr))); ptr = (void*)((UInt64*)ptr + 1)
++
++#define bstoreU16_inc(ptr, val) *((UInt16*) (ptr)) = bswap_16(val); ptr = (void*)((UInt16*)ptr + 1)
++#define bstoreU32_inc(ptr, val) *((UInt32*) (ptr)) = bswap_32(val); ptr = (void*)((UInt32*)ptr + 1)
++#define bstoreU64_inc(ptr, val) *((UInt64*) (ptr)) = bswap_64(val); ptr = (void*)((UInt32*)ptr + 1)
+ 
+ #else // BYTE_ORDER == BIG_ENDIAN
+ 
+@@ -69,9 +69,9 @@
+ #define bswabU64_inc(ptr) *((UInt64*) (ptr)); ptr = (UInt64*)ptr + 1
+ #endif
+ 
+-#define bstoreU16_inc(ptr, val) *((UInt16*) (ptr)) = val; ptr = (UInt16*)ptr + 1
+-#define bstoreU32_inc(ptr, val) *((UInt32*) (ptr)) = val; ptr = (UInt32*)ptr + 1
+-#define bstoreU64_inc(ptr, val) *((UInt64*) (ptr)) = val; ptr = (UInt64*)ptr + 1
++#define bstoreU16_inc(ptr, val) *((UInt16*) (ptr)) = val; ptr = (void*)((UInt16*)ptr + 1)
++#define bstoreU32_inc(ptr, val) *((UInt32*) (ptr)) = val; ptr = (void*)((UInt32*)ptr + 1)
++#define bstoreU64_inc(ptr, val) *((UInt64*) (ptr)) = val; ptr = (void*)((UInt64*)ptr + 1)
+ 
+ #endif
+ 

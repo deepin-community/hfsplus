@@ -1,0 +1,10 @@
+debian/hfsplus.7
+debian/hpcd.1
+debian/hpcopy.1
+debian/hpfsck.1
+debian/hpls.1
+debian/hpmkdir.1
+debian/hpmount.1
+debian/hppwd.1
+debian/hprm.1
+debian/hpumount.1

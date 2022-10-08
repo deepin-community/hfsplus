@@ -1,0 +1,51 @@
+#! /bin/sh -e
+## 99_types.dpatch by Aurélien GÉRÔME <ag@roxor.cx>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Use types in asm/types.h instead of compiler defaults.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/apple.h hfsplus-1.0.4/libhfsp/src/apple.h
+--- old/hfsplus-1.0.4/libhfsp/src/apple.h	2002-03-10 20:58:09.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/apple.h	2006-09-13 20:52:15.000000000 +0000
+@@ -27,16 +27,17 @@
+ 
+ #define APPLE_H
+ 
+-typedef signed char	    Char;
+-typedef unsigned char	    UChar;
+-typedef signed char	    SInt8;
+-typedef unsigned char	    UInt8;
+-typedef signed short	    SInt16;
+-typedef unsigned short	    UInt16;
+-typedef signed long	    SInt32;
+-typedef unsigned long	    UInt32;
+-typedef unsigned long	    OSType;
+-typedef unsigned long long  UInt64;
++#include <asm/types.h>
++typedef __s8    Char;
++typedef __u8    UChar;
++typedef __s8    SInt8;
++typedef __u8    UInt8;
++typedef __s16   SInt16;
++typedef __u16   UInt16;
++typedef __s32   SInt32;
++typedef __u32   UInt32;
++typedef __u32   OSType;
++typedef __u64   UInt64;
+ 
+ #define PARTITION_SIG	    0x504d   /* 'PM' */
+ 

@@ -1,0 +1,82 @@
+<html>
+<head>
+    <title>HFS+ Utilities</title>
+</head>
+<body>
+<h2>HFS+ Utilities</h2>
+<p>
+This directory is a work in progress. It is maintained
+by Klaus Halfmann &lt;klaus.halfmann@t-online.de&gt; please contact me
+for any questions.
+</p>
+<h3>Parts of this project</h3>
+<p>
+<a href="doc/hfsp.html">What is HFS+</a><br />
+<a href="doc/libhfsp.html">libhfsp</a><br />
+<a href="doc/bugs.html">bugs</a><br />
+<a href="doc/faq.html">FAQ</a><br />
+</p>
+<h3> Current Status </h3>
+<p>
+<b>Klaus Halfmann</b><br />
+I decided to recreate the parts of the original hfsutils and
+keep theire names but remame "hfs" to "hfsp" reso. "h" to "hp" 
+wherever needed.
+I started working on libhfsp. Im used to OO-Programming, so
+I recreated the code with objects in mind. See documenation
+for <a href="doc/libhfsp.html">libhfsp</a>.
+</p><p>
+The libhfsp part works for (most) readonly purposes. Im currently
+working on user-useable tools like hpmount hpcd and hpls.
+</p><p>
+<b>Other...</b><br />
+Ask me (Klaus Hafmann &lt;klaus.halfmann@t-online.de&gt; where you might help.
+</p> 
+<h3>To Do:</h3>
+<ul>
+    <li> create a working libhfsp (readonly)	</li>
+    <ul>
+	<li> check why hppwd didnt make it into the rpm</li>
+	<li> <a href="http://sources.redhat.com/glibc/"> glibc source</a></li>
+    </ul>
+    <li> create a working libhfsp (writing)	</li>
+    <ul>
+	<li>Create a hpfscheck to find at least maximum node Id</li>
+    <ul>
+    <li> Recreate commandline tools		</li>
+    <li> (Re-)create kernel module		</li>
+    <li> optimize libhfsp (caching, etc)	
+    <ul>
+	<li>optimize key search for fixed length keys (extends tree...)</li>
+	<li> Make the address of the FSF correctly everywhere </li>
+    </ul>
+    </li>
+    <li> create mkfs / chkfs			</li>
+    <li> Recreate UI/X-Tools			</li>
+</ul>
+<hr>
+<pre>
+Copyright (C) 2000 Klaus Halfmann &lt;klaus.halfmann@t-online.de&gt;
+Original code 1996-1998 by Robert Leslie &lt;rob@mars.rog&gt;
+other work 2000 from Brad Boyer &lt;flar@pants.nu&gt;
+
+All files found in this directory and subdirectory are free software;
+you can redistribute it and/or modify them
+under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+$Id: index.html,v 1.1.1.1 2002/03/05 19:50:28 klaus Exp $                                                                         
+</pre>
+</body>
+</html>
+

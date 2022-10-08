@@ -1,0 +1,4 @@
+debian/*.1
+debian/*.7
+doc/Makefile
+libhfsp/test/Makefile

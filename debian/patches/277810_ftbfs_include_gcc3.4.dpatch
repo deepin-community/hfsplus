@@ -1,0 +1,32 @@
+#! /bin/sh -e
+## 277810_ftbfs_include_gcc3.4.dpatch by Andreas Jochens <aj@andaco.de>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix FTBFS with gcc-3.4 due to a missing include.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/libhfsp.h hfsplus-1.0.4/libhfsp/src/libhfsp.h
+--- old/hfsplus-1.0.4/libhfsp/src/libhfsp.h	2002-03-25 15:48:37.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/libhfsp.h	2006-09-13 20:52:15.000000000 +0000
+@@ -31,7 +31,7 @@
+ # include "hfs.h"
+ # include "hfsp.h"
+ 
+-extern int errno;
++#include <errno.h>
+ /* Last error is eventually found here */
+ extern const char *hfsp_error; 
+ 

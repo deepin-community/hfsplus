@@ -1,0 +1,80 @@
+[Image] [Reply to sender] [Image] [Reply to all] [Image] [Reply to folder]
+[Image] [Forward] [Image] [Move/Copy] [Image] [Delete] [Image]
+[Read previous item] [Read next item] [Image]
+[Get help information on the current window] [Image]
+
+From:     devprograms@apple.com [SMTP:devprograms@apple.com]
+To:       khalfmann@libra.de
+Cc:
+
+Subject:  Re: Creator Registration Reques
+Sent:     9/20/00 6:19 PM                           Importance:     Normal
+
+ Please include the line below in follow-up emails for this request.
+
+ Follow-up:  1325041
+
+ Dear Klaus Halfmann,
+
+ Thank you for registering your application creator information. We
+ appreciate your continued product development and support of Apple
+ Computer!  The following product information has been registered:
+
+ Company: (Powerpc) Linux Community
+ Contact: Klaus Halfmann
+ Address: Kirchstr. 24a
+ 67691 Hochspeyer
+ GERMANY
+
+ Application: HFS+ Utlitities and Kernel Module for (PPC) Linux
+ Phone: 49-6305-4172 49-621-41997-15
+ EMail Address: khalfmann@libra.de
+
+ Application Signatures:
+ H+LX  (Hex) 482B4C58
+ H+Lx  (Hex) 482B4C78
+ H+lx  (Hex) 482B6C78
+
+ This letter serves as your confirmation. Please keep it on file.
+ Additionally, you should review the information for accuracy. If you
+ locate discrepancies, please contact Developer Support at
+ devprograms@apple.com with your corrections.
+
+ Thanks for supporting Apple!
+
+ Best regards,
+
+ Melanie Allen
+ Apple Developer Connection
+ Worldwide Developer Relations
+
+ REQUEST
+ ------------------------------------------------------------------------
+
+ WEB CREATOR/FILE TYPE Registration Request
+ =========================================%UNIQUE REGISTRATION%:
+ %NAME%: Klaus Halfmann
+ %COMPANY%: (Powerpc) Linux Community
+ %ADDRESS%: Kirchstr. 24a
+ 67691 Hochspeyer
+ GERMANY
+ %TELEPHONE%: 49-6305-4172   49-621-41997-15
+ %E-MAIL%: khalfmann@libra.de
+ %PRODUCT NAME%: HFS+ Utlitities and Kernel Module for (PPC) Linux
+ %DEVICE DRIVER%: No
+ %SIGNATURE (HEX)%: 482B4C58
+ %SIGNATURE (HEX)%: 482B4C78
+ %SIGNATURE (HEX)%: 482B6C78
+ %END
+
+ DB REFERENCE
+ -------------------------------------------------------------------
+
+ TIME IN:                  19-Sep-2000  11:37 PDT
+ TIME OUT:         20-Sep-2000  08:51 PDT
+
+ Copyright 2000, Apple Computer, Inc.
+
+ SECURITY: NON-DISCLOSURE USE ONLY
+
+

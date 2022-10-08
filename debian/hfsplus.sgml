@@ -1,0 +1,95 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+  <!ENTITY debian   "<productname>Debian GNU/Linux</productname>">
+  <!ENTITY hfsplus  "<productname>hfsplus</productname>">
+  <!ENTITY hfsutils "<productname>hfsutils</productname>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      <email>jensen@debian.org</email>
+    </address>
+    <author>
+      <firstname>Jens</firstname>
+      <surname>Schmalzing</surname>
+    </author>
+    <date>Mar 13 2001</date>
+  </refentryinfo>
+  <refmeta>
+    <refentrytitle>hfsplus</refentrytitle>
+    <manvolnum>7</manvolnum>
+  </refmeta>
+  <refnamediv>
+    <refname>hfsplus</refname>
+    <refpurpose>a set of tools to access HFS+ file systems</refpurpose>
+  </refnamediv>
+
+  <refsect1>
+    <title>Description</title>
+
+    <para>
+      HFS+, also known as the Macintosh Extended Format, was
+      introduced by Apple Computer in 1998 with the release of MacOS
+      8.1.  It contains many improvements over the old HFS file
+      system, most notably the ability to allocate up to 2&caret;64
+      blocks, resulting in much more efficient storage of many small
+      files on large disks.
+    </para>
+
+    <para>
+      The &hfsplus; collection allows one to access volumes formatted with
+      the HFS+ file system from &debian; and related operating
+      systems.  The collection contains tools to mount and unmount
+      HFS+ volumes, to change and list directories, and to copy
+      files to and from HFS+ volumes.
+    </para>
+
+    <para>
+      Note that unlike its cousin, the &hfsutils; collection used for
+      accessing HFS file systems, &hfsplus; does not use the Macintosh
+      pathname syntax with &quot;:&quot; as delimiter.  Instead, it
+      mimics the unix notation, delimiting the names of volumes,
+      directories and files in a path with &quot;/&quot;, and also
+      understands &quot;.&quot; and &quot;..&quot; to some extent.
+      </para>
+
+  </refsect1>
+
+  <refsect1>
+    <title>See also</title>
+
+    <para>
+      hpmount(1), hpls(1), hpcd(1), hppwd(1), hpcopy(1), hprm(1), hpmkdir(1), hpumount(1), hpfsck(1).
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>Author</title>
+
+    <para>
+      This manual page was written by Jens Schmalzing
+      <email>&lt;jensen@debian.org&gt;</email> for &debian; using the
+      manual page by Klaus Halfmann
+      <email>&lt;halfmann@libra.de&gt;</email> that comes with the
+      source code and documentation from the <productname>Tech Info
+      Library</productname>.
+    </para>
+  </refsect1>
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

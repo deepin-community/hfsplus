@@ -1,0 +1,125 @@
+>Halfmann, Klaus wrote:
+>> I still can not find these offset, can you tell me where in 
+>> dump1.txt I can find them ?
+
+> 004dbf0: 0000 0000 0000 0000 0ff8 00f8 0078 000e .............x..
+
+>Here's the one for the header node in the catalog tree. The three
+>records are at the following offsets:
+
+> r1: 000e (14)
+> r2: 0078 (120)
+> r3: 00f8 (248)
+
+> Also, the free space begins at 0ff8.
+
+Ahrg, I assumed those offsets at the end of the Catalog _fork_
+not at the end of the Catalog _record_ (Ok, I can throw away some
+of my code now :). Hmm I miss some start of the Btree map recod
+let me study this stupid technote again ... Ok I think I had
+a deep mistunderstanding of the hierarchy of structures. As
+I understdand the hierarchy now as follows:
+
+Volume (contains some predefined forks)
+    Nodes (cocantenated via next/prev)
+	BTrees (spanning over Nodes)
+	    (Btree-)records (files/folders)
+
+    Forks of files (data / rsrc) as found in btrees.
+    Extends file
+	Btree
+	    extends records (keyed by parent / file cnid)
+
+(The technote really lacks an explanantion like this ...)
+
+The imposes, that one can do a binary search on those keys,
+fine.
+
+
+>> Yes , I just started to grasp whats up with the extends overflow
+>> file. I intended to add this functionality later. (Ill come
+>> away without for some time I assume :)
+
+>Not a huge deal. Only a heavily fragmented filesystem ever uses
+>this. I don't have any HFS+ filesystems where this isn't empty.
+
+Ill try to force MacOS into creating some extends and then 
+will implement it ...
+-> added to my ToDo list in index.html
+
+>> 'LiH0', 'Linu', 'LiH+' 
+
+> Sounds fine. I guess I'll have to get some for the kernel as well,
+> whenever I actually make it write to the disk.
+
+-> added to my ToDo list in index.html
+
+
+> Yes, I have a very good net connection at work. I would be able
+> to catch the last couple hours of the time you are on that way.
+
+>> Do you receive mails online ? If yes I could send you
+>> a mail and upon a direct answer we could go online simultaneously.
+
+> I don't generally look at my personal email while I'm at work, but
+> I keep an eye on my work email. (bboyer@yahoo-inc.com)
+
+> I also am almost always logged in with Yahoo! messenger during the
+> day as well. I even have a linuxppc build of the client. (It isn't
+> on the official download site yet, but it should get added soon.)
+> <A HREF="http://messenger.yahoo.com/" TARGET="_blank">
+>    http://messenger.yahoo.com/</A>
+
+> I apologize for the shameless plug. I work for Yahoo! ;)
+
+Oh well, I earn my money by doing Java programming on NT and
+(starting soon) AS400 (Yes you can do Java on those boxes :-)
+(Hm, but since they use PowerPC theyd bette'r run ppcLinux :-( )
+
+Well, Ill try this messanger than. In case this might fail 
+ill 'ping' you at your email adress. I'd suggest we use irc
+this way eventually attracting some people to join us ...
+
+[ Now senseless idea about new structure deleted]
+>> I target a code Sequence as follows:
+>> volume vol;
+>> record catalog;
+>> btreee tree;
+>> UInt32 cnid;
+>> volume_open(&amp;vol, &quot;/dev/hdx&quot;, HFSP_READONLY);
+>> record_open_catalog(&amp;catalog, &amp;vol);
+>> btree_open(&amp;tree, &amp;catalog);
+>> icnid = btree_find_recursive(&amp;tree, &quot;MyFile.txt&quot;);
+>> btree_copy_data(&amp;tree, &quot;/home/user/MyFile.txt&quot;);
+>> 
+>> This would be the core for a hfspcp tool ...
+
+
+> It seems more logical to me to have the following:
+
+> volume_open(&vol, device, flags);
+> btree_open(&tree, &vol, CATALOG_CNID);
+> record_init(&record, &tree);
+> find_record(&record, searchkey);
+> catrecord_copy_data(&record, outfile);
+
+> This seems more in line with the actual relationships of the
+> on disk structures, whereas I would find the other way to
+> be somewhat misleading. In this case, the record would need
+> the tree rather than the fork, and the tree needs the fork.
+> However, I could just be biased by the way I wrote it. :)
+
+I think you are right here. Now since I found my basic mistakes
+I can go ahead and implement and test more utility functions.
+I will restructuree it in a away that the record will be "below"
+the btree.
+
+Thanks for you comments, it really pushed me foreward to discuss
+things with someone.
+
+    Greetings,
+	Klaus Halfmann	aka "Hasi".
+
+P.S : (You get my Libra Signature when I write to you from work ...)
+
+

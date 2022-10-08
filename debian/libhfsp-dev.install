@@ -1,0 +1,3 @@
+libhfsp/src/*.h usr/include/hfsplus
+usr/lib/*-*/lib*.so
+usr/lib/*-*/lib*.a

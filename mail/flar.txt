@@ -1,0 +1,81 @@
+[Image] [Reply to sender] [Image] [Reply to all] [Image] [Reply to folder]
+[Image] [Forward] [Image] [Move/Copy] [Image] [Delete] [Image]
+[Read previous item] [Read next item] [Image]
+[Get help information on the current window] [Image]
+
+From:     flar@allandria.com [SMTP:flar@allandria.com]
+To:       khalfmann@libra.de
+Cc:
+
+Subject:  Re: HFS+ a bit Progress
+Sent:     8/18/00 4:53 AM                            Importance:    Normal
+
+ Halfmann, Klaus wrote:
+ > Perhaps we should take a look at /hfsplus/libhfsp/test/dump1.txt:
+ > at 004ccc0:
+ > 004ccc4 should be the start of the B-Tree Map record.
+ > This should start with first two bits set, that would be 0xc
+ > But there are all zeros upto 0x4ccf8 where I found the expected
+ > 0xc , But how can I correctly calculate this offset ?
+
+ You need to look at the offsets at the end of the node to find
+ the location and length of the map record. The end of the node
+ has an array of 16 bit numbers which are the offsets of all the
+ records in the node, and there is one more number than there are
+ records to tell where the free space starts.
+
+ >  >> Perhaps we should "meet" somewhere in irc. If this is
+ >  >> impossible we should communicate by commenting in the source
+ >  >> code and in the documentation.
+ >
+ > I already started it tha "offline" way
+
+ Well, I've found a couple problems in the code while looking at
+ it the last day or so. In btree_init() you don't update p after
+ you pass it to the first function, so you read the same data
+ twice, and end up getting the wrong data in the header. I don't
+ know if it's intentional, but your code will be wrong for any
+ file with more than the 8 extents that can be held in the
+ actual fork data structure. You aren't using the extents
+ overflow file at all. My code in fs/hfsplus/extents.c shows
+ the basic outline of the extents file usage, tho I'm not
+ 100% sure I have it correct.
+
+ I have another hexdumped drive image if you want it. It's a
+ ZIP cartridge with a freshly formatted HFS+ filesystem done
+ by the U.S. version of OS8 (8.5, I think). The file is about
+ 128k uncompressed.
+
+ Just another little detail I noticed in your comments. That
+ "last mounted version" is a signature that is supposed to be
+ unique for every program or OS that writes to an HFS+ disk,
+ and should even be changed with major software revisions. I
+ think Apple has a page where you can request a code.
+
+ > Go to http://www.efnet.net/servers.html and choose a
+ > server in your vincinity that "likes" you. (Some servers
+ > kick you when they dont like you IP-adress). Perhaps
+ > youll have trouble with your organisations firewalls etc.
+ >
+ > However you should join then channel "#mklinux" There you might
+ > find me as "Hasi" (Ask a native German what this is :-).
+ > There are severela irc clients around. I use the plain,
+ > text only irc that comes with ppclinux. Use "/help" to find
+ > out about irc (this works offline, too). As soon as you got
+ > some idea about irc we can create a channel "HFS+" or
+ > "hfsplus" to have a chat on our own.
+ >
+ > Let me think about the time diff. You are correct with
+ > EST (European Summer Time) its 9 hours using 24-hour times
+ > at 17:00 its 09:00 at your location, this might work.
+ > Perhaps you like more to work at night (many at irc seem
+ > to do so :-) so to meet me at 09:00 you should stay up
+ > until about midnight 00:00 ...
+
+ I'll try to get on there occasionally. Hopefully we can
+ manage to be there at the same time.
+
+         Brad Boyer
+         flar@pants.nu
+
+

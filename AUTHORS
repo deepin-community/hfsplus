@@ -1,0 +1,38 @@
+The following people contributed to the hfsplus package:
+
+Klaus Halfmann  <klaus.halfmann@feri.de>
+
+Did most of the programming and sometimes tries to push
+the project foreward.
+
+Michael Schulze <mike.s@genion.de> appeard in Winter 2002
+and gave new drive to the dormant project
+    
+Brad Boyer (flar@allandria.com)
+
+Wrote (parts of) a kernel module for linux ppc 2.2 which
+where used by Klaus as a starting point. Commented at
+the code.
+
+R. Shapiro (rshapiro@bbn.com)
+Create src and binary rpms for easier distribution
+
+Olaf Hering (olh@suse.de) Supplied us with the CVS access
+at Suse
+
+Klaus Kämpf (kkaempf@suse.de) set up the initial structure
+to use all those nifty auto... tools
+
+Some people at the linuxppc-kernel mailing list.
+
+Some people at the #mklinux channel on efnet/openrojects
+
+* You * if you want to help ...
+
+I (Klaus Halfmann) would like to mention my father - Peter Heck -
+at this place. He died at the 16th of September 2000 after 
+figthing a long fight against his cancer. Some parts of
+this code where written on my iBook traveling back and forth
+by train, visting and attending him.
+ 
+$Id: AUTHORS,v 1.2 2002/03/08 21:26:20 klaus Exp $

@@ -1,0 +1,144 @@
+<html>
+<head>
+    <title>Klaus Halfmann: HFS+</title>
+</head>
+<body bgcolor="FFFFFF">
+    <h1>HFS+ for the Linux Community</h1>
+
+<p>
+My name is Klaus Halfmann and you may find me in the #ppclinux irc channels
+with my nickname Hasi. In this text I tell you how and why I started
+contributing to the (power PC) Linux community. I currently develop userland
+tools to acces the second generation Apple &tm; File System HFS+. 
+</p>
+    <h2>Small Curricumlum vitae</h2>
+<p>
+I have studied information science at the <a href="http://www.uni-kl.de/"
+>University of Kaiserslautern</a>. Stimulated by a friend of mine I bought
+my first Apple Macintosh&reg; an SE/30. After finishing my studies with
+a diploma I started working with MacAp, a C++ application framework supplied
+and founded by Apple. After working about 2 years, mostly doing medical
+applications I lost my job there and was caught by <a href="http://www.stardivision.de"
+>Stardivision</a> in Hamburg. I was involved in the delivery of the Starwriter
+3.0 and main development of StarOffice 4.0 for the Apple Macintosh. I still had
+the illusion of some quality in software development. Being not satisfied with
+my position and duties in Hamburg I went back to a loose friend of mine in
+Hochspeyer near Kaiserslautern, who became my boss. The first thing to do for
+me was porting a stock-charting and analyzing software from Object Pascal to
+C++ and PPC (MacApp again). Although I sucessfully managed to develop and
+deploy Version 1.2, 1.3 and 1.4 of the application the company as a whole went
+down and was bought by the german department of Programmers Paradise:
+<a href="http://www.ispd.de">ISP*D</a>. I learned some lessons about programming,
+marketing and finances during that time, but perhaps I am still to truethfully
+for the current world of software engineering.
+</p><p>
+Dropping the whole Mac-busines we started developing a Web-Application using
+Microsoft Active Server Pages &tm; and Microsoft SQL Server &tm;. Doing so I
+learned much more about HTML, SQL and Windows NT &tm;. After bringing the
+Application to some sort of finish called Version 1.0, I started reengeneering
+the Application using Java Server Pages (JSP) and a 100% Java aproach, now
+supporting Oracle and DB2, too. Meanwhile the product including the developers
+was bought by a newly founded copany: <a href="http://www.healy-hudson.de"
+>Healy Hudson</a>.  I had been reading some good books about
+Software engeneering and felt myself as technical leader of the project. After
+doing so about 2 years I found that my ideas where not adopted by the
+management at all: central ideas and problems where not know at all. Marketing
+told customers almost lies about the product and no cut was made to release
+some (more or less) useable Version 2.x. Although working with my boss was a
+pleasure and the corporate climate was really fine, I can not deny that my boss
+was unable to communicate with the managers in Munic and was in fact unuseable
+as a project manager. (As a programmer and problem-solver he was and still is
+great, and he can talk you into everything he wants to). Frustrated I looked
+for a company nearby and made my way to <a href="http://www.libra.de"
+>Libra Software GmbH</a>, Mannheim.
+</p><p>
+At that time I made my first experiences with Linux and PowerPC. Due to good
+Java Support I was able to port our application to Linux in less than three
+days, mostly concerend with case-sensitive file names. We had some external
+co-workers who all came with there personal notebooks. So I decided I would buy
+an iBook with ppc-linux and integrate it into the unavoideable Windows network
+using Samba. I did so at my old company and without much pain, at the new
+company. I usually travel about an hour by train to Mannheim. It came, that I
+dedicated most of this time to the linux community.
+</p>
+    <h2>Decision for Linux</h2>
+<p>
+At university I programmed my diploma works on Ultrix &tm; using C++
+and all the unix tools, so I was not afraid of the linux commandline. I looked
+around what I could do for the linux community. The first thing I stumbled over
+was that the <code>nvsetenv</code> tool was broken for new world machines
+like my iBook. I took this as a starting point and reworked the tool to be suiteable for new and (using the existing code) old nvram. With a kernel modification
+from Benjamin Herrenschmidt my work was almost ok (Hollis Blanchard has fixed
+a BUG, though :)). You can currently download it at 
+<a href="ftp://penguinppc.org/users/hollis/">hollis pages</a>. I always
+had a goal in mind: I would like to boot into MacOS and back to Linux more easily.
+</p><p>
+I looked around further for tools that where needed and I could do. Due to lack
+of acces to more hardware than my iBook, many things are out of range for me.
+The iBook (at that time) lacked support for graphics and sound, and I found
+that HFS+ was not supported by Linux at all. I tried a bit of kernel
+programming, but decided that this would need more expirience (and hardware
+perhaps). So I decided to provide HFS+ acces for the Linux community. My goal
+here was to ease the use of Linux for users of MacOS 8-9 (and maybe MacOSX, 
+too, future will tell us)
+</p><p>
+Asking around I found the hfsplus tools, which where a good starting point
+for my work. (It seems they still work but are not supported anymore. Who
+knows what happend to rob@mars.org ?). After doing my first steps I was able to
+provide the first useable tools. Thanks to <a href="http://www.suse.de">Suse</a>
+I now have a CVS repository for my project and someone that helped me
+creating rpm-packages. You can obtain a current version from
+<a href="ftp://penguinppc.org/users/hasi">penguinppc.org</a>.
+I hope I will be able to finalize this project in some way which may need about
+a year with the time I currently can spare.
+</p>
+    <h2>Motivation and Philosophy</h2>
+<p>
+I found a sort of new home in the ppclinux virtual community and want to thank
+the many people I met there. At my jobs much of the work I did and
+will do is not honored in a way I like it. And even more code and time was
+thrown away. Thinking about this, the approach of the Gnu Public License and the
+idea of open Software is much better:
+I can keep <b>my</b>, not my companies, copyright.
+The code is not lost when some boss of mine decides to do so. 
+I would even like to do my normal work as open software but the German and
+international "software culture" is not ready for this step yet. (Well, my boss is not ready yet, too :))
+</p><p>
+In my - now ten years - of programming I found that very often the customers
+want a solution but a product is sold to them. Current software industry is far
+away from being a craftsmanship: You can not go to  the software worker
+next door and ask for a solution. And, some days later, you get a well done
+product, manufactured using some reliable standards and verifiable by anybody
+who likes too. I hope the idea of open software will move us towards this
+direction. Meanwhile I try to keep my head up, not telling the customers lies
+about my products, but involve them into the creative process of software
+development.
+</p><p>
+I am still looking for a company that works like the ideals I stated above 
+(and some other principles)  I would like to adhere to. But I am realistically
+enough to see that I cannot stop the globe and turn it around as I like.
+So I leave that Job to  God, the creator. Meanwhile I do what can be done
+to push things slowly in the direction I like them to be. Without hurting
+me and others to hard.
+</p>
+    <h2>A Joke from IRC</h2>
+(Hasi was talking about the HFS+ B*-Trees) Maybe I confused the names, anyway:
+<pre>&lt;NightDog&gt; Oh no I fear the Bees in the trees
+&lt;Hasi&gt; Bees ?
+&lt;NightDog&gt; Yes in the B-Trees
+*Hasi* listens to the Bees on his HFS+ volume
+&lt;Hasi&gt; cat /dev/hda13 &gt; /dev/snd 
+&lt;Hasi&gt; Argh, no sound on iBook yet
+
+
+              |          __    khalfmann@libra.de
++--------+    |   |\  | |  \
+| +----+ |    v   | \ | |__/   Klaus Halfmann
+| |... | |   .^.  |  \| |      Kirchstraﬂe 24a
+| |..  | |  <   >      |       67691 Hochspeyer
+| +----+ |   'v'       |
+|_____==_|+==-------------==+  GERMANY
+ |      | |   --__  __--    |
+ +------+ +-------==--------+  
+</pre>
+</body>

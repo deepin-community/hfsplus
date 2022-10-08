@@ -1,0 +1,153 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+  <!ENTITY debian   "<productname>Debian GNU/Linux</productname>">
+  <!ENTITY hfsplus  "<productname>hfsplus</productname>">
+  <!ENTITY hfsutils "<productname>hfsutils</productname>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      <email>jensen@debian.org</email>
+    </address>
+    <author>
+      <firstname>Jens</firstname>
+      <surname>Schmalzing</surname>
+    </author>
+    <date>Mar 13 2001</date>
+  </refentryinfo>
+  <refmeta>
+    <refentrytitle>hpcopy</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+  <refnamediv>
+    <refname>hpcopy</refname>
+    <refpurpose>copy files from an HFS+ volume</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>hpcopy</command>
+      <group>
+	<arg choice="opt"><option>-m</option></arg>
+	<arg choice="opt"><option>-b</option></arg>
+	<arg choice="opt"><option>-t</option></arg>
+	<arg choice="opt"><option>-r</option></arg>
+	<arg choice="opt"><option>-a</option></arg>
+      </group>
+      <arg choice="plain" rep="repeat"><replaceable>source-path</replaceable></arg>
+      <arg choice="plain"><replaceable>target-path</replaceable></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+    
+    <para>
+      <command>hpcopy</command> copies files and directories from an
+      HFS+ volume.  If multiple files are to be copied, the target
+      path must be a directory.
+    </para>
+
+    <para>
+      Since Macintosh files contain two forks, which are not
+      representably in Unix file systems, copies use one of several
+      translation modes:
+    </para>
+
+    <variablelist>
+      <varlistentry>
+	<term><option>-m</option></term>
+	<listitem>
+	  <para>
+	    <productname>Mac Binary II</productname> is a format for
+	    binary file transfer.  Both forks of the Macintosh file
+	    are preserved.  This is the recommended mode for
+	    transferring arbitrary Macintosh files.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term><option>-b</option></term>
+	<listitem>
+	  <para>
+	    <productname>BinHex</productname> also preserves both
+	    forks of the Macintosh file.  In addition, the encoded
+	    file contains only ASCII characters, making it suitable
+	    for electronic mail transmission.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term><option>-t</option></term>
+	<listitem>
+	  <para>
+	    <productname>Text</productname> copies only the data fork
+	    of the Macintosh file, while the contents of the resource
+	    fork are lost.  In addition, this mode translates
+	    end-of-line characters.  This translation should be used
+	    for text files.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term><option>-r</option></term>
+	<listitem>
+	  <para>
+	    <productname>Raw Data</productname> copies only the data
+	    fork of the Macintosh file, while the contents of the
+	    resource fork are lost.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term><option>-a</option></term>
+	<listitem>
+	  <para>
+	    <productname>Automatic</productname> mode applies a set of
+	    predefined heuristics to determine the appropriate
+	    translation.  This is the default if no mode is specified.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+
+  </refsect1>
+  
+  <refsect1>
+    <title>See also</title>
+
+    <para>
+      hfsplus(7), hpmount(1), hpls(1), hpcd(1), hprm(1), hpmkdir(1), hppwd(1), hpumount(1), hpfsck(1).
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>Author</title>
+
+    <para>
+      This manual page was written by Jens Schmalzing
+      <email>&lt;jensen@debian.org&gt;</email> for &debian; using the
+      manual page by Klaus Halfmann
+      <email>&lt;halfmann@libra.de&gt;</email> that comes with the
+      source code and documentation from the <productname>Tech Info
+      Library</productname>.
+    </para>
+  </refsect1>
+
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

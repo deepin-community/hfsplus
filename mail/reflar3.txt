@@ -1,0 +1,56 @@
+Hello Brad,
+
+Yesterday I submitted the first "real" command to the CVS: hpmount.
+You must do a make -f Makefile.cvs to get it running (Understanding
+Well, it is not very usefull but the first step. My current plans
+look like this:
+- create hpls
+- create hpcd
+- create hpcp
+- create hpunmount
+? did I miss a reasonalbe, readonly command ?
+- go on working on the extends overflow stuff
+
+Ill try to push Suse, that they do a weekly build on the stuff
+(So that I dont forget to add/commit a file) and supply the
+linuxppc community with the tools. When I feel fine about the
+tools on ppc we must find some fools^H^H^H^H^H nice people
+that try our code on x86 and other platforms, too.
+(Can you supply a http/ftp acces to some images ?)
+
+When the readonly part is working, theres still is a lot to do:
+
+- Need to write the supposed minimum checks to avoid duplicate
+  CNIDs. Since this includes a complete tree traversal, so I can
+  check for the btrees consistency, too.
+
+- Need to write code to allocate and deallocate blocks in forks and 
+  care about the allocation bitmaps. (append / truncate)
+
+- Need to write code for allocating and deallocating nodes in the
+  node allocation bitmaps.
+
+I think I must write a node cache, to support atomic transactions
+and to avoid the overhead of reading two blocks I currently have.
+
+What I fear most is the code to rebalance the tree when
+it is completly filled and all the other cases. Maybe Ill
+tweak some images with MacOS to find out how its done there.
+
+/me thinks a while about btree reorganisation and shudders
+
+Uhm, I think I should write my Ideas into the documentation
+first, perhaps you can point met to some code / mailing lists
+I might study. I'll try to define some calculateable values 
+that require a reorganisation.
+
+/me trys to think even harder
+
+Mhh, foget it, Ill take a pragmatically aproach: Ill do my
+best in the simple cases and bail out if cant cope with
+them right now (So most operations will succeed). After the
+structure is ok Ill think about writing those (recursive) 
+reorganisation fucntions.
+
+Greetings,
+	Klaus Halfmann,	aka Hasi

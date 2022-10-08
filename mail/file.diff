@@ -1,0 +1,11 @@
+4,6c4,5
+<  * Copyright (C) 1999 Brad Boyer (flar@pants.nu)
+<  *   Addtional comments by Klaus Halfmann (khalfmann@libra.de)
+<  *					    aka Hasi
+---
+>  * Copyright (C) 1999
+>  * Brad Boyer (flar@pants.nu)
+14d12
+< /* File operations are part of the inode */
+33d30
+< /* Operations on _file_ inodes (copare to dir.c) */

@@ -1,0 +1,171 @@
+#! /bin/sh -e
+## 286366_ftbfs_amd64_gcc4.0.dpatch by Andreas Jochens <aj@andaco.de>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix FTBFS on amd64 with gcc-4.0.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/btree.c hfsplus-1.0.4/libhfsp/src/btree.c
+--- old/hfsplus-1.0.4/libhfsp/src/btree.c	2002-03-05 19:50:28.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/btree.c	2006-09-13 20:52:15.000000000 +0000
+@@ -393,7 +395,7 @@
+ 	{
+ 	    p = volume_readfromfork(vol, nodebuf, fork, 0, bt->blkpernode,
+ 		 HFSP_EXTENT_DATA, bt->cnid);
+-	    ((char*) p) += HEADER_RESERVEDOFFSET; // skip header
++	    p = ((char*) p) + HEADER_RESERVEDOFFSET; // skip header
+ 	}
+ 	
+ 	bt->alloc_bits = malloc(alloc_size);
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/btreecheck.c hfsplus-1.0.4/libhfsp/src/btreecheck.c
+--- old/hfsplus-1.0.4/libhfsp/src/btreecheck.c	2002-03-05 19:50:29.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/btreecheck.c	2006-09-13 20:52:15.000000000 +0000
+@@ -264,7 +264,7 @@
+ 	{
+ 	    p = volume_readfromfork(vol, nodebuf, fork, 0, bt->blkpernode,
+ 		 HFSP_EXTENT_DATA, bt->cnid);
+-	    ((char*) p) += HEADER_RESERVEDOFFSET; // skip header
++	    p = ((char*) p) + HEADER_RESERVEDOFFSET; // skip header
+ 	}
+ 	
+ 	bt->alloc_bits = malloc(alloc_size);
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/fscheck.c hfsplus-1.0.4/libhfsp/src/fscheck.c
+--- old/hfsplus-1.0.4/libhfsp/src/fscheck.c	2002-03-25 15:48:37.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/fscheck.c	2006-09-13 20:52:15.000000000 +0000
+@@ -204,7 +204,8 @@
+  */
+ static int fscheck_volume_readbuf(volume * vol, hfsp_vh* vh, void* p)
+ {
+-    if ( (vh->signature	= bswabU16_inc(p)) != HFSP_VOLHEAD_SIG) 
++    vh->signature	= bswabU16_inc(p);
++    if (vh->signature != HFSP_VOLHEAD_SIG) 
+     {
+ 	printf("Unexpected Volume signature '%2s' expected 'H+'\n",
+ 		(char*) &vh->signature);
+@@ -230,7 +231,7 @@
+     vh->write_count	= bswabU32_inc(p);
+     vh->encodings_bmp	= bswabU64_inc(p);
+     memcpy(vh->finder_info, p, 32); 
+-    ((char*) p) += 32; // So finderinfo must be swapped later, ***
++    p = ((char*) p) + 32; // So finderinfo must be swapped later, ***
+     p = volume_readfork(p, &vh->alloc_file );
+     p = volume_readfork(p, &vh->ext_file   );
+     p = volume_readfork(p, &vh->cat_file   );
+@@ -277,12 +278,12 @@
+ 	    printf("Volume is wrapped in HFS volume "
+ 		   " (use hfsck to check this)\n");
+ 
+-	((char*) p) += 0x12;		/* skip unneded HFS vol fields */
++	p = ((char*) p) + 0x12;		/* skip unneded HFS vol fields */
+ 	drAlBlkSiz = bswabU32_inc(p);	/* offset 0x14 */
+-	((char*) p) += 0x4;		/* skip unneded HFS vol fields */
++	p = ((char*) p) + 0x4;		/* skip unneded HFS vol fields */
+ 	drAlBlSt    = bswabU16_inc(p);	/* offset 0x1C */
+ 	
+-	((char*) p) += 0x5E;		/* skip unneded HFS vol fields */
++	p = ((char*) p) + 0x5E;		/* skip unneded HFS vol fields */
+ 	signature = bswabU16_inc(p);	/* offset 0x7C, drEmbedSigWord */
+ 	if (signature != HFSP_VOLHEAD_SIG)
+ 	    HFSP_ERROR(-1, "This looks like a normal HFS volume");
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/swab.h hfsplus-1.0.4/libhfsp/src/swab.h
+--- old/hfsplus-1.0.4/libhfsp/src/swab.h	2002-03-05 19:50:29.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/swab.h	2006-09-13 20:52:15.000000000 +0000
+@@ -36,13 +36,13 @@
+ 
+ #define bswabU16(val) bswap_16(val)
+ 
+-#define bswabU16_inc(ptr) bswap_16(*((UInt16*) (ptr))++)
+-#define bswabU32_inc(ptr) bswap_32(*((UInt32*) (ptr))++)
+-#define bswabU64_inc(ptr) bswap_64(*((UInt64*) (ptr))++)
+-
+-#define bstoreU16_inc(ptr, val) (*((UInt16*) (ptr))++) = bswap_16(val)
+-#define bstoreU32_inc(ptr, val) (*((UInt32*) (ptr))++) = bswap_32(val)
+-#define bstoreU64_inc(ptr, val) (*((UInt64*) (ptr))++) = bswap_64(val)
++#define bswabU16_inc(ptr) bswap_16(*((UInt16*) (ptr))); ptr = (UInt16*)ptr + 1
++#define bswabU32_inc(ptr) bswap_32(*((UInt32*) (ptr))); ptr = (UInt32*)ptr + 1
++#define bswabU64_inc(ptr) bswap_64(*((UInt64*) (ptr))); ptr = (UInt64*)ptr + 1
++
++#define bstoreU16_inc(ptr, val) *((UInt16*) (ptr)) = bswap_16(val); ptr = (UInt16*)ptr + 1
++#define bstoreU32_inc(ptr, val) *((UInt32*) (ptr)) = bswap_32(val); ptr = (UInt32*)ptr + 1;
++#define bstoreU64_inc(ptr, val) *((UInt64*) (ptr)) = bswap_64(val); ptr = (UInt32*)ptr + 1;
+ 
+ #else // BYTE_ORDER == BIG_ENDIAN
+ 
+@@ -69,12 +69,12 @@
+ #define bswabU64_inc(ptr) (*((UInt64*) (ptr))++)
+ #endif
+ 
+-#define bstoreU16_inc(ptr, val) (*((UInt16*) (ptr))++) = val
+-#define bstoreU32_inc(ptr, val) (*((UInt32*) (ptr))++) = val
+-#define bstoreU64_inc(ptr, val) (*((UInt64*) (ptr))++) = val
++#define bstoreU16_inc(ptr, val) *((UInt16*) (ptr)) = val; ptr = (UInt16*)ptr + 1
++#define bstoreU32_inc(ptr, val) *((UInt32*) (ptr)) = val; ptr = (UInt32*)ptr + 1
++#define bstoreU64_inc(ptr, val) *((UInt64*) (ptr)) = val; ptr = (UInt64*)ptr + 1
+ 
+ #endif
+ 
+ /* for the sake of compleetness and readability */
+-#define bswabU8_inc(ptr)	(*((UInt8*) (ptr))++)
+-#define bstoreU8_inc(ptr,val)	(*((UInt8*) (ptr))++) = val
++#define bswabU8_inc(ptr)	*((UInt8*) (ptr)); ptr = (UInt8*)ptr + 1
++#define bstoreU8_inc(ptr,val)	*((UInt8*) (ptr)) = val; ptr = (UInt8*)ptr + 1
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/volume.c hfsplus-1.0.4/libhfsp/src/volume.c
+--- old/hfsplus-1.0.4/libhfsp/src/volume.c	2002-03-26 18:00:29.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/volume.c	2006-09-13 20:52:15.000000000 +0000
+@@ -323,7 +323,8 @@
+  */
+ static int volume_readbuf(hfsp_vh* vh, void* p)
+ {
+-    if ( (vh->signature	= bswabU16_inc(p)) != HFSP_VOLHEAD_SIG) 
++    vh->signature	= bswabU16_inc(p);
++    if (vh->signature != HFSP_VOLHEAD_SIG) 
+ 	HFSP_ERROR(-1, "This is not a HFS+ volume");
+     vh->version	    	= bswabU16_inc(p);
+     vh->attributes   	= bswabU32_inc(p); 
+@@ -345,7 +346,7 @@
+     vh->write_count	= bswabU32_inc(p);
+     vh->encodings_bmp	= bswabU64_inc(p);
+     memcpy(vh->finder_info, p, 32); 
+-    ((char*) p) += 32; // finderinfo is not used by now
++    p = ((char*) p) + 32; // finderinfo is not used by now
+     p = volume_readfork(p, &vh->alloc_file );
+     p = volume_readfork(p, &vh->ext_file   );
+     p = volume_readfork(p, &vh->cat_file   );
+@@ -381,7 +382,7 @@
+     bstoreU32_inc(p, vh->write_count	);
+     bstoreU64_inc(p, vh->encodings_bmp	);
+     memcpy(p, vh->finder_info, 32); 
+-    ((char*) p) += 32; // finderinfo is not used by now
++    p = ((char*) p) + 32; // finderinfo is not used by now
+     p = volume_writefork(p, &vh->alloc_file );
+     p = volume_writefork(p, &vh->ext_file   );
+     p = volume_writefork(p, &vh->cat_file   );
+@@ -417,12 +418,12 @@
+   
+ 	UInt16	embeds, embedl;		/* Start/lenght of embedded area in blocks */
+ 	
+-	((char*) p) += 0x12;		/* skip unneeded HFS vol fields */
++	p = ((char*) p) + 0x12;		/* skip unneeded HFS vol fields */
+ 	drAlBlkSiz = bswabU32_inc(p);	/* offset 0x14 */
+-	((char*) p) += 0x4;		/* skip unneeded HFS vol fields */
++	p = ((char*) p) + 0x4;		/* skip unneeded HFS vol fields */
+ 	drAlBlSt    = bswabU16_inc(p);	/* offset 0x1C */
+ 	
+-	((char*) p) += 0x5E;		/* skip unneeded HFS vol fields */
++	p = ((char*) p) + 0x5E;		/* skip unneeded HFS vol fields */
+ 	signature = bswabU16_inc(p);	/* offset 0x7C, drEmbedSigWord */
+ 	if (signature != HFSP_VOLHEAD_SIG)
+ 	    HFSP_ERROR(-1, "This looks like a normal HFS volume");

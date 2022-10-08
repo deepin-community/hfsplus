@@ -1,0 +1,18 @@
+
+Added blockiterator to volume.c
+
+Added ChangeLog to CVS :)
+
+2000-09-29: Version 1.0.1 is considered a stable, readonly implementation
+
+2000-10-19: Version 1.0.2 is faster and fixes a bug for volume > 2Gb
+
+2000-10-XX: Fixed a bug when accessing fragmented files on larger volumes
+
+2000-11-XX: Fixed a display bug when doing ls -la for '.'
+
+2000-11-06: hpfsck is ok for the most purposes
+
+2002-03-25: Added (Thanks To Michael Schulze) Partition support
+
+$Id: ChangeLog,v 1.2 2002/03/26 20:47:26 klaus Exp $

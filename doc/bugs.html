@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <title>HFS+ Utilities, BUGS</title>
+  </head>
+
+  <body>
+    <h2>HFS+ Utilities, BUGS</h2>
+
+    <ul>
+      <li>Disk First Aid will hang with some strange behaviour in case the
+      length of a key does not match the length of the string inside the key
+      (Ill try to report this bug to Apple ;-)</li>
+
+      <li> HFS+ cotains hints for the finder what encoding (Roman, Asiatic,
+      etc. to use. These are not supported. MacOS <i>may</i> react strange on files
+      or folders that are not marked but need such an encoding.
+      </li>
+
+      <li> HFS+ contains POSIX permissions which are not used by MacOS &lt;= 9,
+      but probably by MacOS X. None of the HFS+ utils cares fore those by now.
+      This should be implemented in some later version.</li>
+
+      <li>hpfsck will not complain abut files/folders without thread and vice
+      versa. All sorts of strange results will happen when using such a volume.
+      </li>
+
+      <li>hpfsck will not complain about records without parent. They will not
+      show up, but are still there. Fixing this is a difficult task.</li>
+
+      <li>Error handling ist not always consistent and will need a cleanung
+      once the major goals are reached. You sometimes will get errors without
+      any message (failed: No Error) or errors with wrong explanation
+      (Internal errors that were caught and handled.)</li>
+
+      <li>The conversion from and to unicode does not work fully. Files with
+      extended characters are not created correctly and therefore are not
+      found by MacOS. The sorting of files with extended characters will be
+      different from the result of a "normal" sort. (How does kanji work with
+      linux ?).</li>
+
+      <li>HFS+ allows any charcter as name. MacOS does not allow ':' since it
+      is used as folder seperator. I dont know what MacOS X allows. With
+      hfsplus the standard unix . and .. is used to denote the current and
+      parent directory. Thus using '.' or '..' as filenames will result in
+      unpredictable behaviour.</li>
+
+      <li>Unicode Strings that convert to UTF-8/ISO Strings longer than 255
+      characters will be trunctated. (In case you run into this theoretically
+      bug please send Email to &lt;klaus.halfmann@feri.de&gt; Im curious :)</li>
+
+      <li>The creation date of a mac volume is set in local time. (So mac
+      programs do not think the volume has changed when the timezone or DST
+      changes). This difference is ignored since Linux/Unix per default only
+      uses UUTC times. (In practice this should not matter.)</li>
+
+      <li>The volume name must not contain the charcter ':' (Which is rather
+      unlikely with MacOS but theoretically possible). This is a limitation of
+      the hfsputils which need to save some information in a text file.</li>
+
+      <li>The Macbinary and BinHex formats contain limitations on the length
+      of filenames, longer names will (hopefully) be truncated.</li>
+
+      <li>The Macbinary and BinHex formats are unable to cope with 64 bit file
+      length. Such files can not be copied using these formats, use raw mode
+      instead.</li>
+
+      <li>The globbing mechanism in hpls and other functions can (per desgin)
+      not match patterns spaning directories so 'a*b' or 'a{/,b}c' will not
+      match 'a/b'. (I dont think a normal ls * does this, perhaps Im
+      --pedantic here :)</li>
+
+      <li>hpls does not support the unix '.' and '..' notation completly. '.'
+      will be shown, but '..' not. hpls '.' and hpls '..' wont work. (hpcd
+      '..' will work :). Since HFS+ does not really have these concepts It is
+      somewhat difficult to implement this completly.</li>
+
+      <li> The Partition code could be a bit better and should release
+	 the Memory allocated, but I'm happy its there at all ;-) </li>
+    </ul>
+<pre>
+ $Id: bugs.html,v 1.3 2002/03/26 20:47:26 klaus Exp $
+</pre>
+  </body>
+</html>
+

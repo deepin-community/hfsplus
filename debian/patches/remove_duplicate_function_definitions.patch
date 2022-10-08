@@ -1,0 +1,113 @@
+Author: Hilko Bengen <bengen@debian.org>
+Description: Remove conflicting duplicate function definitions
+
+Index: hfsplus/libhfsp/src/blockiter.h
+===================================================================
+--- hfsplus.orig/libhfsp/src/blockiter.h
++++ hfsplus/libhfsp/src/blockiter.h
+@@ -52,9 +52,4 @@ extern int blockiter_next(blockiter *b);
+ extern int blockiter_skip(blockiter *b, UInt32 skip);
+ 
+ /* return current block */
+-extern inline UInt32 blockiter_curr(blockiter *b)
+-{
+-    return b->e->start_block + b->block;
+-}
+-
+-
++extern UInt32 blockiter_curr(blockiter *b);
+Index: hfsplus/libhfsp/src/volume.h
+===================================================================
+--- hfsplus.orig/libhfsp/src/volume.h
++++ hfsplus/libhfsp/src/volume.h
+@@ -75,12 +75,7 @@ void volume_initfork(volume* vol, hfsp_f
+ extern void volume_create_extents_tree(volume* vol);
+ 
+ /* accessor for entends btree, is created on demand */
+-extern inline btree* volume_get_extents_tree(volume* vol) 
+-{
+-    if (!vol->extents)
+-	volume_create_extents_tree(vol);
+-    return vol->extents;
+-}
++extern btree* volume_get_extents_tree(volume* vol);
+ 
+ /* return new Id for files/folder and check for overflow.
+  *
+Index: hfsplus/src/darray.h
+===================================================================
+--- hfsplus.orig/src/darray.h
++++ hfsplus/src/darray.h
+@@ -40,9 +40,6 @@ extern	void	    darray_shrink(darray *,
+ extern	void	    darray_sort(darray *, int (*)(const void *, const void *));
+ 
+ /* return the array as an indexable block */
+-extern inline void *darray_array(darray *array)
+-{
+-  return (void *) array->mem;
+-}
++extern void *darray_array(darray *array);
+ 
+ 
+Index: hfsplus/src/dlist.h
+===================================================================
+--- hfsplus.orig/src/dlist.h
++++ hfsplus/src/dlist.h
+@@ -36,14 +36,8 @@ extern void	dlist_free(dlist *);
+ extern int	dlist_append(dlist *, const char *);
+ 
+ /* return the array of strings in a list; can dispose with free() */
+-extern inline char **dlist_array(dlist *list)
+-{
+-    return (char **) list->mem;
+-} 
++extern char **dlist_array(dlist *list);
+ 
+ /* return the number of strings in a list */
+-extern inline int dlist_size(dlist *list)
+-{
+-  return list->eltend - (char **) list->mem;
+-}
++extern int dlist_size(dlist *list);
+ 
+Index: hfsplus/src/dstring.h
+===================================================================
+--- hfsplus.orig/src/dstring.h
++++ hfsplus/src/dstring.h
+@@ -42,13 +42,7 @@ extern int	dstring_append(dstring *, con
+ extern void	dstring_shrink(dstring *, size_t);
+ extern void	dstring_free(dstring *);
+ 
+-extern inline char	*dstring_string(dstring *string)
+-{
+-    return string->str;
+-}
++extern char	*dstring_string(dstring *string);
+ 
+-extern inline int	dstring_length(dstring *string)
+-{
+-    return string->len;
+-}  
++extern int	dstring_length(dstring *string);
+ 
+Index: hfsplus/libhfsp/src/libhfsp.h
+===================================================================
+--- hfsplus.orig/libhfsp/src/libhfsp.h
++++ hfsplus/libhfsp/src/libhfsp.h
+@@ -90,15 +90,7 @@ extern const char *hfsp_error;
+ 
+     
+ /** helper function to create those Apple 4 byte Signatures */
+-extern inline UInt32 sig(char c0, char c1, char c2, char c3)
+-{
+-    UInt32 sig;
+-    ((char*)&sig)[0] = c0;
+-    ((char*)&sig)[1] = c1;
+-    ((char*)&sig)[2] = c2;
+-    ((char*)&sig)[3] = c3;
+-    return sig;
+-}
++extern UInt32 sig(char c0, char c1, char c2, char c3);
+ 
+ 
+ 

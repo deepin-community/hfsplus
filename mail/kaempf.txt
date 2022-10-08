@@ -1,0 +1,15 @@
+Hallo Her Kaempf,
+
+Das hfsplus Packet entwickelt sich langsam, ich beginne gerade
+damit die ersten "sinnvollen" Funktionen zu implementieren.
+Dazu habe ich im Toplevel ein src-directory angelegt.
+
+Ich habe dazu das Makefile.cvs in's top-level Directory
+dupliziert und neue Makefiles.am angelegt. 
+
+Da ich nicht sovile Ahnung von den ganzen auto - tools
+habe möchte ich Sie bitten das Projekt mal zu überprüfen.
+
+Gruss,
+	Klaus Halfmann,	    aka Hasi
+

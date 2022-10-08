@@ -1,0 +1,58 @@
+<!doctype linuxdoc system>
+
+<manpage title="HFSP" sectnum="1">
+
+<sect> NAME<p>
+<bf>hfsp</bf> <bf>hfsplus</bf> - Collection of tools to acces
+    HFS+ volumes.
+
+<sect> DESCRIPTION<p>
+The hfsplus collection cotains tools to read and display the files
+found on an HFS+ formatted volume. HFS+ is the volume format
+intodruced by Apple Computer inc. around MacOS 8. The HFS+ format
+uses a better approach to acces large volumes and allows files
+with a size up to 2^64 bytes. In Addition filenames are saved 
+as two-byte unicode with a length upto 255 (unicode) characters.
+</p><p>
+In contrast to its sucessor, the hfs-tools hfsplus does not use
+the volume/directory/file/ syntax using ':' as delimiter but
+uses the standard unix '/', '..' and '.' notation. Since this
+concept is not fully supported my HFS+ not all combinations
+will be understood.
+
+<sect> EXAMPLES<p>
+This example mounts my main HFS+ volume, shows some files and copies
+one to the linux side:
+<tscreen><verb>
+> hpmount /dev/hda13
+> hpls
+Apple Extras     Desktop Folder   MP3              Systemordner
+Benutzer         Develop          Programme        Temporary Items
+Bibel            Dokumente        Spiele           VM Storage
+> hpcd Develop
+> hpcd Test
+> hppwd
+/Aida/Develop/Test
+hpcopy -t Test.cp .
+> hpumount
+</verb></tscreen>
+
+<sect> FILES<p>
+<bf>$HOME/.hfsplusvolume</bf>
+This file is created by hpmount and removed by hpunmount. It contains
+the volume name and the current directory id.
+
+<sect> BUGS<p>
+There are some bugs related to uniocde handling and the large file
+sizes not supported by some older formats (binhex, macbinary).
+See the developer documenatation for details
+
+<sect> SEE ALSO<p>
+hpmount(1), hpumount(1), hpls(1), hpcd(1), hppwd(1), hpcopy(1), 
+hfsutils(1),
+
+<sect1> AUTHORS<p>
+Klaus Halfmann  <tt>&lt;halfmann@libra.de&gt;</tt>
+
+<!-- $Id: hfsp.sgml,v 1.1.1.1 2002/03/05 19:50:28 klaus Exp $ -->
+</manpage>

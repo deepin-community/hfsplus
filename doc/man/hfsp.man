@@ -1,0 +1,103 @@
+.if n .ds Q \&"
+.if t .ds Q ``
+.if n .ds U \&"
+.if t .ds U ''
+.TH "HFSP" 1 
+.tr \&
+.nr bi 0
+.nr ll 0
+.nr el 0
+.de DS
+..
+.de DE
+..
+.de Pp
+.ie \\n(ll>0 \{\
+.ie \\n(bi=1 \{\
+.nr bi 0
+.if \\n(t\\n(ll=0 \{.IP \\(bu\}
+.if \\n(t\\n(ll=1 \{.IP \\n+(e\\n(el.\}
+.\}
+.el .sp 
+.\}
+.el \{\
+.ie \\nh=1 \{\
+.LP
+.nr h 0
+.\}
+.el .PP 
+.\}
+..
+NAME
+
+.Pp
+\fBhfsp\fP \fBhfsplus\fP - Collection of tools to acces
+HFS+ volumes.
+.Pp
+DESCRIPTION
+
+.Pp
+The hfsplus collection cotains tools to read and display the files
+found on an HFS+ formatted volume. HFS+ is the volume format
+intodruced by Apple Computer inc. around MacOS 8. The HFS+ format
+uses a better approach to acces large volumes and allows files
+with a size up to 2[circ  ]64 bytes. In Addition filenames are saved 
+as two-byte unicode with a length upto 255 (unicode) characters.
+.Pp
+In contrast to its sucessor, the hfs-tools hfsplus does not use
+the volume/directory/file/ syntax using ':' as delimiter but
+uses the standard unix '/', '..' and '.' notation. Since this
+concept is not fully supported my HFS+ not all combinations
+will be understood.
+.Pp
+EXAMPLES
+
+.Pp
+This example mounts my main HFS+ volume, shows some files and copies
+one to the linux side:
+.DS
+.sp 
+.ft RR
+.nf
+> hpmount /dev/hda13
+> hpls
+Apple Extras     Desktop Folder   MP3              Systemordner
+Benutzer         Develop          Programme        Temporary Items
+Bibel            Dokumente        Spiele           VM Storage
+> hpcd Develop
+> hpcd Test
+> hppwd
+/Aida/Develop/Test
+hpcopy -t Test.cp .
+> hpumount
+.DE
+.fi 
+.ec
+.ft P
+.sp
+.Pp
+FILES
+
+.Pp
+\fB$HOME/.hfsplusvolume\fP
+This file is created by hpmount and removed by hpunmount. It contains
+the volume name and the current directory id.
+.Pp
+BUGS
+
+.Pp
+There are some bugs related to uniocde handling and the large file
+sizes not supported by some older formats (binhex, macbinary).
+See the developer documenatation for details
+.Pp
+SEE ALSO
+
+.Pp
+hpmount(1), hpumount(1), hpls(1), hpcd(1), hppwd(1), hpcopy(1), 
+hfsutils(1),
+.Pp
+.SH AUTHORS
+
+.Pp
+Klaus Halfmann  \f(CR[lt    ]halfmann@libra.de[gt    ]\fP
+.Pp

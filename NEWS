@@ -1,0 +1,7 @@
+V 1.0.1 should be stable, performance on highly fragmented files
+  may be poor
+
+V 1.0.4 Adds Partition support and will work on x86 Linux, too
+
+$Id: NEWS,v 1.2 2002/03/26 20:47:26 klaus Exp $
+

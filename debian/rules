@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@ --with=autoreconf
+
+override_dh_auto_build:
+	dh_auto_build
+	(cd debian; \
+		for man in hfsplus.7 hpcd.1 hpcopy.1 hpfsck.1 \
+			hpls.1 hpmkdir.1 hpmount.1 hppwd.1 \
+			hprm.1 hpumount.1; \
+		do docbook-to-man `echo $$man|sed 's/[17]/sgml/'` >$$man; \
+	done)

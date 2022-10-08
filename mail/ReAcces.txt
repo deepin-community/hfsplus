@@ -1,0 +1,52 @@
+Von: flar@pants.nu
+Gesendet: Dienstag, 17. Oktober 2000 05:37
+An: khalfmann@libra.de
+Betreff: Re: Problem accessing Backup HFS+ Volume Header
+
+Halfmann, Klaus wrote:
+> Hello Flar, I hope you can help me.
+
+I'll try.
+
+> While implementing the hpfscheck, I found that my code
+> to check the backup volume header only worked due to a
+> combination of two evenly stupid bugs.
+> 
+> Due to some changes this bug now has hit me. My current
+> code works for a small (32 MB) image but not for my big
+> (2.5 G) main HFS+ partition, Grr. Please have a look at
+> the code in volume.c: volume_read_wrapper.
+> 
+> The calculation in in the current (CVS) code is wrong.
+> because I calculated the lenght starting at the new offset
+> , not the old. Reversing the lines works for my small image
+> but the big partion doesnt work this way, its beyond the end 
+> of the partition.
+> 
+> vol->maxbloks 	= vol->startblock + embede * sect_per_block;
+> vol->startblock	= drAlBlSt + embeds * sec_per_block;
+> 
+> Please help me to understand why this is wrong ?
+> 
+> To see the bug change the function volume_read() to care
+> about the returncode.
+
+Well, I don't know if this is your problem, but your comments show
+a misunderstanding of the wrapper data. The data you are calling
+embede is not the end of the embedded filesystem as stated in your
+comments. It's the number of allocation blocks used by the embedded
+filesystem.
+
+The way I interpret the code that's currently in CVS, maxbloks
+will point to the first block that isn't in the HFS+ data.
+This is just my interpretation at first glance. I could be wrong...
+
+> Meanwhile Ill try to locate the Backup Volume Header on my
+> Big partion and try it this way.
+
+Well, unless you know where the end of the volume is, you can't
+find the backup of the volume header, since its location is
+relative to the end of the filesystem.
+
+	Brad Boyer
+	flar@pants.nu

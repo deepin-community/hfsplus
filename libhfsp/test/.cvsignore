@@ -1,0 +1,10 @@
+Makefile
+Makefile.in
+*.o
+*.lo
+.deps
+.libs
+*.a
+*.la
+hfsptest
+core

@@ -1,0 +1,10 @@
+
+I, just started writing to an HFS+ image from Linux and stubled
+over the following problem which may interest the HFS+ developers
+
+- Setting the version flag in the volume header to something
+greater than 4 (I tried 0x0102) makes the volume unuseable by
+MacOS (Volume cannot be activated).
+
+
+

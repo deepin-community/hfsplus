@@ -1,0 +1,41 @@
+
+zippel@fh-brandenburg.de
+flar@allandria.com
+dan_bethe@yahoo.com
+josh@antihype.com
+nicoya@apia.dhs.org
+
+Thanks to all who responded. Here is some more info ...
+
+I uploaded a binary and a source distribution to
+    
+    ftp://penguinppc.org/pub/hfsplus/
+
+Thanks to flar I found a missing file in the cvs-repository
+Here the commands to access the CVS:
+    
+export CVSROOT=":pserver:anonymous@partner.suse.de:/usr/local/hfsplus"
+cvs login
+[password hfsplus]
+cvs co hfsplus
+cd hfsplus/libhfsp
+make -f Makefile.cvs
+make  
+
+I intend to work for one or two month and fix the bugs I already
+found. After that Ill create a new Distribution. This might change
+when someone starts helping me...
+
+I currently fix bugs related to wildcard matching etc. I assume
+these will keep me busy for a while. After that I think Ill redesing
+my object approach. The btree(s) will become part of the volume
+and not be visible to the "outside" any more. The redsign will
+include a cache. For everything else keep an eye on the top-level
+index.html. Ill try to be somewhat current there :)
+
+Admitted the _checking_ of an HFS+ volume is realtivly easy, I
+have quite a bit of respect for the task of fixing it. Just
+be patient :)
+
+Greetings,
+	    Klaus , aka Hasi

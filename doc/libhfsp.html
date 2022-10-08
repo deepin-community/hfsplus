@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>libhfsp</title>
+</head>
+<body>
+<h2>libhfsp</h2>
+<p>
+    This library can be used to prorammatically acces HFS+
+    volumes. The library in turn is used by utilities allowing
+    user access to the volume.
+</p>
+<h3>objects exposed</h3>
+    The library has some top level objects that are to be used
+    by other programs:<ul>
+    <li><a href="#volume">volume</a> identifies the volume as a whole.
+    </li>
+    </li>The <a href="#btree">btree</a> is used a cache for the records used
+    later (this object will eventually be included in the volume later
+    on).
+    </li>
+    <li> The <a href="#record">record</a> represent a file or folder.</li>
+</ul>
+<h3> Design principles </h3>
+In contrast to the original library by Robert Leslie this libray
+rarely uses malloc/free. This impoes, that all memory is contained
+in the objects shown above. As of now only the current <b>two</b>
+blocks are "cached". Performance may be poor when doing large
+transactions. function returning int return 0 on success and any
+other value (normally -1) on failure unless stated otherwise.
+functions returning pointers return NULL on error. In most
+cases <code>hfsp_error</code> and <code>errno</code> should be set.
+Byte swapping happens when reading structure from raw memory,
+this avoids any alignment problems. (In contrast to Brad Boyers
+aproach wich needs to swap (and assemble) the bytes on every acces.)
+The contentes of the raw HFS+ structures is usually <b>not</b>
+copied to other structures and remains embedded in the high 
+level strcutures. In case you need such a value acces it directly
+(e.G. volume->vol.create_date - HFSPTIMEDIFF )
+
+<h3> <a name="volume">volume</a> </h3>
+    Call <code>volume_open()</code> to open a volume. 
+    You must call <code>volume_close()</code> to close the volume.
+    all other <code>volume_</code> functions are used internally only
+    use them when you really know what you are doing.
+<h3> <a name="btree">btree</a> </h3>
+The btree as of now is the catalog-file btree, althoug there are
+other btrees like the extends-file btree. I intend to make the
+btree a (more or less) private member of the volume. This will
+be done together with implementing a catalog-node cache superseeding
+the simple block cache at the volume.
+
+<h3> <a name="record">record</a> </h3>
+
+The record is used whenever a file or folder is needed. There
+is a sufficient set of methods to navigate around with records.
+Folders and FolderThreads can both be used when acces to the
+files of a folder is needed. File Threads are supported, althoug
+Apple does not use them. (The utility functions like hpls however
+suppress then since I dont know what to do with them.)
+As of now there is no concept of "opening" a record, for
+readonlny acces just take one of the forks and use the
+fork functkions found at the volume to acces the raw data. See
+hpcopy for examples how to do that.
+
+<p>
+    This is work in progress, either be patient or provide help.
+</p>
+$Id: libhfsp.html,v 1.1.1.1 2002/03/05 19:50:28 klaus Exp $ 
+</body>
+</html>
+

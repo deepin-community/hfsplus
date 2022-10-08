@@ -1,0 +1,59 @@
+Hello Londo_
+
+It took me a while to compile the neccesary parts
+for my unicode problem, but here I am. Attached
+you will find a screenshot showing two Filenames 
+I created with MacOS 9 on an HFS+ volume. In 
+addition there is a small program that tries to convert
+those Unicode strings (extracted with gdb from my hpls
+tool.) The program failes however.
+
+I use glibc-2.1.3-4a as found on the LinuxPPC 2000
+distribution. As reading the documentation (Hidden 
+behind "info libc") I understand, that the sort of
+conversion I need is not supported yet:
+
+> Umlaut-A
+> ("Latin  capital  letter  A with diaeresis") can either be
+> represented by the precomposed UCS code 0x00c4, or  alter-
+> natively  as  the  combination  of a normal "Latin capital
+> letter A" followed  by  a  "combining  diaeresis":  0x0041
+> 0x0308. 
+
+(One of the strings just starts with that encoding)
+
+Ok I think I understand the problem, but I dont know yet
+how to solve it. I could write a conversion of my own, but
+before doing so please help me answering the following
+questions:
+
+1) Will glibc support such conversions in some forseable
+   release ?
+
+2) Does one of the inconv-modules support this encoding yet ?
+
+if 1) and 2) are false, I fear I have to write an iconv module
+myself.
+
+3) How can I get such conversion support in a Kernel module ?
+   There is some code in the kernel that already does
+   Unicode (and other) encodings in include/linux/nls.h
+   and /linux/fs/nls/...
+
+Feel free to foreward this mail wherever you like.
+
+Greetings,
+              |          __    khalfmann@libra.de
++--------+    |   |\  | |  \
+| +----+ |    v   | \ | |__/   Klaus Halfmann
+| |... | |   .^.  |  \| |      Kirchstraﬂe 24a
+| |..  | |  <   >      |       67691 Hochspeyer
+| +----+ |   'v'       |
+|_____==_|+==-------------==+  GERMANY  
+ |      | |   --__  __--    |
+ +------+ +-------==--------+ 
+
+P.S. This is my private .sig, I should use it more often :)
+ 
+
+

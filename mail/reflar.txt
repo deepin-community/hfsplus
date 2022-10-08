@@ -1,0 +1,48 @@
+> * Your code is lacking comments (I know Im pedantic here).
+>   Will you include comments of mine (and verify them)
+>   in case I send you some ?
+
+Yes, I'll be more than happy to look at your comments and
+include them, and if I correct any of them, I'll be sure
+to let you know what I changed and why.
+
+> * I registered three creator codes with Apple. I myself
+>   claim 'H+LX' (Hex) 482B4C58 for my hfsplus utils and
+>   suppose you use 'H+Lx' (Hex) 482B4C78 for your
+>   implementation. A third code is free for now:
+>   'H+lx'  (Hex) 482B6C78
+
+That sounds fine. Thanks for letting me use it.
+
+> * In my code I create the extents btreee on demand only.
+>   (I hope to spare some memory this way)
+>   Your code does not look like doing so.
+
+No, my code always loads it at mount time. I'll take a look
+and see how much memory I'm wasting that way. This shouldn't
+be a really big deal to change.
+
+> * In hfsplus_statfs I read:
+>
+>     if(sb->u.hfsplus_sb.next_cnid <= HFSPLUS_EXCH_CNID)
+>       tmp.f_ffree = 0;
+>     else
+>       tmp.f_ffree = 0xFFFFFFFF - sb->u.hfsplus_sb.next_cnid;
+>
+>   This may fail in case someone ever writes a mkhfsp to create
+>   a really empty HFS+ volume. (Why do you this anyway ?)
+
+This is a simplistic bit of code that probably should be rewritten.
+The reason it was done this way is a quirk in the way the MacOS
+does the allocation. It always creates the next normal file as
+the value in next_cnid and the increments the value. That number
+should always be initialized to a number greater than the value
+HFSPLUS_EXCH_CNID because that value and all smaller are reserved
+by Apple for special purposes. If a filesystem has next_cnid set
+to a number lower than that, there is a problem. I suspect that
+the value of f_ffree in statfs could be a little wrong without
+any side effects anyway.
+
+> More comments later.
+
+Thanks. I'm glad someone's looking at it. Noone else seems to have.

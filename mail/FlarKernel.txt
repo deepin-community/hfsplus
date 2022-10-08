@@ -1,0 +1,62 @@
+Hello Flar,
+
+here some more comments about your Kernel module:
+
+* Why dont you declare your inode ops static (and created
+  the ops-records at the end. This way you need not to declare
+  so many functions and avoid the (I like this expression :)
+  "global namspace pollution".
+
+* Why must the error messages retunred be negative numbers ?
+  (return -EIO;)
+
+* in dir.c: hfsplus_lookup always returns NULL, is this ok ?
+
+* I changed _asc2uni to return the lenght (and removed an
+  unneeded invariant). This can be used in E.g. _fill_catkey.
+  I hope I dont forget to send the diffs.
+
+* In general you should change many functions to return some
+  value, this can improve performance because it can
+  be done with registers.
+
+* I thougt C programs always return 0 on succes and anything else
+  on error, is this not true in the kernel ?
+
+* Why are the functions to release structures often named _put...
+  I'd like _close.. ore _release.. more. (close would eventually
+  write back structures ...)
+
+* When You use double refrences (this->that->next) You should
+  resolve the first reference when you use it more than about
+  two times. This is poison for the RISC processor since its
+  pipline must wait for the first pointer to become valid
+  before using the second one. Even better: place some other,
+  unrelated statements after the assigment of the first pointer
+  Example:
+	This	*this;
+	That	*that = this->that;
+	int	i=0;	// needed in next loop
+	int 	count=this->num_elem;
+	int	val = that->value;
+
+* Thinking about your code, I found a nonportable statement in mine,
+  I didn't swap the record offset in the node.
+
+* More comments in the diffs
+
+Do you think your kernel module is stable enough ? If yes
+we should make it oficially part of the 2.4 (or even 2.2) kernel.
+This way we would gain a CVS / BK acces, too. And I will
+try to use it, too :)
+
+I'm now going back to my tools doing some optimizations I'll
+need for write acces anyway. After that Im going to write a
+hfspcheck that is needed, too.
+
+* I'm still commenting on bnode.c, You'll get this diff later.
+
+    
+    Greetings Klaus, aka Hasi
+
+

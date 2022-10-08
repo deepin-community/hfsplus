@@ -1,0 +1,43 @@
+Von: Peter Handel [handel@apple.com]
+Gesendet: Freitag, 10. November 2000 01:53
+An: Halfmann, Klaus
+Betreff: Re: BugReport HFS+ implementation in OS 9
+
+Klaus, this is the latest:
+
+-----------------
+11/7/00 6:39 PM Bill xxxx:
+I am not sure I understand what the developer is talking about. We don't maintain a leaf node count, only a leaf record count? The BTree Header Record (BTHeaderRec, defined in HFSVolumes.h) maintains a count of the number of records contained in the leaf nodes of the tree (BTHeaderRec->leafRecords), as well as the total number of nodes allocated to the BTree file (BTHeaderRec->totalNodes), and the number of free nodes (BTHeaderRec->totalNodes). The leaf record count in the BTHeaderRec was getting out of synch in earlier version of MacOS X but I haven't seen that since Beta.
+
+Can we get the developer to clarify this?
+----------------
+
+
+Thanks,
+Peter
+
+On Thursday, November 2, 2000, at 01:47 AM, Halfmann, Klaus wrote:
+
+> I'm in the process of writing HFS+ tools for linux and currently
+> work at the hpfsck tool. Doing so I found a minor Bug in the 
+> Implemenation of HFS+ in MacOS 9. The B*Trees contain a field 
+> leaf_count. I check this field against the node_count and
+> found it greater, resulting in an error message.
+> 
+> This field is not important, I do not need it by now and
+> probably no other implemenation does so. It happend to me
+> on my main HFS+volume of 2.5 Gb after deleting several hunderes
+> of files. It happend in the catalog-btree. The extents-btree
+> is not affected as far as I can tell.
+> 
+> In case you want to look at my code, I can give you an anonymous
+> CVS access,
+> 
+> 	Greetings,
+> 
+> 
+> |       |                  Klaus Halfmann       khalfmann@libra.de
+> |       |				  
+> |    i  | --.  r---  -- |  Libra Software GmbH  Tel +49 (0)621 41997-0
+> |    |  b-- |  |    a-- |  Erzbergerstr. 17     Fax +49 (0)621 41997-30
+> L--- |  --- |  |    .---.  68165 Mannheim 

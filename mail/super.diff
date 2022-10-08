@@ -1,0 +1,75 @@
+4,6c4,5
+<  * Copyright (C) 2000 Brad Boyer (flar@pants.nu)
+<  *	additional comments by Klaus Halfmann (khalfmann@libra.de)
+<  *						aka Hasi
+---
+>  * Copyright (C) 1999
+>  * Brad Boyer (flar@pants.nu)
+32,36d30
+< /* Debugging function to print out a block as hex and ascii 
+<  *
+<  * ToDo: remove this function in a final release.
+<  */
+<  
+74c68
+< 		return 0; // Not a HFS block
+---
+> 		return 0;
+76c70
+< 		return 0; // Does not contain an embedde HFS+ volume
+---
+> 		return 0;
+80c74
+< 		return 0; // Hasi: Why cant we use that ?
+---
+> 		return 0;
+95,100d88
+< /* Superblockperation: read inode 
+<  * The inode is preset by the vfs layer and contains 
+<  *   i_ino, the inode (=directory) number to retrive 
+<  *
+<  */
+<  
+124,127d111
+< /* Release any additial memory allocated for the inode.
+<  * does not mean to write back any chnages (?).
+<  */
+< 
+134,137d117
+< /* The volume is about to be unmounted, write
+<    back all cached data (?) and free all additionally
+<    allocated data */
+< 
+149,154d128
+< /** Fetch infomarzion about a volume and put it into *buf.
+<  *
+<  * buf     - buffer on userside
+<  * bufsize - maximum number of bytes to copy.
+<  */
+< 
+180,181d153
+< /* Array of superblock operations that is handled to the kernel */
+< 
+196d167
+< 	/* Where does this ffz (find first zero ?) come from ? */
+199,205c170
+< /* Read super function (called for mounting a filesystem) 
+<  *
+<  * sb is partially intialized by VFS and contains 
+<  *    the kernel device s_dev to read from.
+<  *
+<  * ToDo: Split this Monster into more manageable pieces.
+<  */
+---
+> /* Read super function (called for mounting a filesystem */
+319d283
+< 	/* Hasi: What effect do the suid and guid etc. have ? */
+378c342
+< 	NULL				/* Hasi: ???? */
+---
+> 	NULL
+381,382c345
+< /* Function to register filesystem handler, 
+<  * called by ?  Shouldnt that be part of the MODULE part ? */
+---
+> /* Function to register filesystem handler */

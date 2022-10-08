@@ -1,0 +1,94 @@
+10,14d9
+< 
+< /* This is reusage of code from some other fs (NTFS ?)
+<    Its unclear if this will support the special apple
+<    encodings */
+< 
+19,29c14
+< /* convert the given utf8 String to an Pascal style,
+<    two byte unicode String. 
+< 
+<   returns length of converted string or negative value on error.
+< 
+<   ToDo: check for maximum lenght (255 double bytes)
+< 	verify that the encoding for umlauts is correct.
+< */
+<   
+< 
+< int hfsplus_asc2uni(hfsplus_unistr *ustr, const char *astr)
+---
+> void hfsplus_asc2uni(hfsplus_unistr *ustr, const char *astr)
+31c16
+< 	int i, len, retval;
+---
+> 	int i, retval;
+39,40c24
+< 	len = hfsp_get_hs(ustr->length);
+< 	for(i = 0; i < len; i++)
+---
+> 	for(i = 0; i < hfsp_get_hs(ustr->length); i++)
+42d25
+< 	return len;
+45,50d27
+< /* convert the given Pascal style, two byte uniocde string into
+<    an utf8 String.
+<    On input *len is the maximum allowed length, on output the actual len.
+<    Illegal or erroneous charcter sequences are silently dropped.
+< */
+< 
+66,67c43
+< 		if(c > 0x7f) // otimize for ASCII characters
+< 		{
+---
+> 		if(c > 0x7f) {
+69c45
+< 			if(size == -1) { // drop characters on error.
+---
+> 			if(size == -1) {
+486,488c462,463
+< /* Fold the case of a unicode char, given the 16 bit value 
+<    Returns folded char, or 0 if ignorable 
+<    Hasi: optimized for PPC processor (I hope :) */
+---
+> /* Fold the case of a unicode char, given the 16 bit value */
+> /* Returns folded char, or 0 if ignorable */
+491c466
+< 	hfsp_u16 tmp, result;
+---
+> 	hfsp_u16 tmp;
+494,497c469,473
+< 	result = c;
+< 	if (tmp)
+< 		result = case_fold_table[tmp + (c & 0xFF)];
+< 	return result;
+---
+> 	if(tmp)
+> 		tmp = case_fold_table[tmp + (c & 0xFF)];
+> 	else
+> 		tmp = c;
+> 	return tmp;
+500,501c476
+< /* Compare unicode strings, acts like standard strcmp 
+<    Hasi: optimized for PPC processor (I hope :) */
+---
+> /* Compare unicode strings, acts like standard strcmp */
+504c479
+< 	hfsp_u16 len1, len2, c1, c2, diff;
+---
+> 	hfsp_u16 len1, len2, c1, c2;
+523d497
+< 		diff = c2-c1;
+525,527c499,501
+< 		if(!diff)
+< 			break;
+< 		if (!c1) // Implies !c2
+---
+> 		if(c1 != c2)
+> 			return (c1 < c2) ? -1 : 1;
+> 		if(!c1 && !c2)
+530d503
+< 	return diff;
+562c535
+< 	return hfsplus_unistrcmp(&str1, &str2) ? 1 : 0;
+---
+> 	return hfsplus_unistrcmp(&str1, &str2)?1:0;

@@ -1,0 +1,49 @@
+#! /bin/sh -e
+## 147838_sigbus_sparc.dpatch by Steve Langasek <vorlon@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix SIGBUS on sparc.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+diff -x debian -ruN old/hfsplus-1.0.4/libhfsp/src/swab.h hfsplus-1.0.4/libhfsp/src/swab.h
+--- old/hfsplus-1.0.4/libhfsp/src/swab.h	2002-03-05 19:50:29.000000000 +0000
++++ hfsplus-1.0.4/libhfsp/src/swab.h	2006-09-13 20:52:15.000000000 +0000
+@@ -49,8 +49,25 @@
+ #define bswabU16(val) val
+ 
+ #define bswabU16_inc(ptr) (*((UInt16*) (ptr))++)
++/* Only available as a GCC extension, but required on sparc due to
++   alignment issues in some of the on-disk structs */
++#if defined(__GNUC__) && defined(__sparc__)
++#define bswabU32_inc(ptr) ({			\
++	unsigned char *c = (char*)ptr;		\
++	((UInt32 *)ptr)++;			\
++	((c[0] << 24)+(c[1] << 16)+(c[2] << 8)+c[3]);})
++#define bswabU64_inc(ptr) ({			\
++	unsigned char *c = (char*)ptr;		\
++	UInt64 val = 0;				\
++	int i = 0;				\
++	((UInt64 *)ptr)++;			\
++	while (i < 8)				\
++		val += (c[i] << (8*(7-i++)));	\
++	val;})
++#else
+ #define bswabU32_inc(ptr) (*((UInt32*) (ptr))++)
+ #define bswabU64_inc(ptr) (*((UInt64*) (ptr))++)
++#endif
+ 
+ #define bstoreU16_inc(ptr, val) (*((UInt16*) (ptr))++) = val
+ #define bstoreU32_inc(ptr, val) (*((UInt32*) (ptr))++) = val

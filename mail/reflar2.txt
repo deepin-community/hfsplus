@@ -1,0 +1,371 @@
+
+
+<script language="Javascript">
+
+function openNewWindow(fileName,windowName,theWidth,theHeight) {
+	if (windowName == "newMessageWindow") 
+	{
+		//generate random window ID
+
+		 windowName = new String(Math.round(Math.random() * 100000));
+
+	}
+	window.open(fileName,windowName,"toolbar=0,location=0,directories=0,status=1,menubar=1,scrollbars=1,resizable=1,width="+theWidth+",height="+theHeight)
+}
+
+</script>
+
+<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 3.2//EN\">
+
+
+<HTML>
+<HEAD>
+<TITLE>Re: RE2: HFS+ a bit Progress</TITLE>
+</HEAD>
+<SCRIPT language=javascript>
+
+
+function DoCommand(szCommand) {
+  
+    if (szCommand == "reply") {
+      window.location="commands.asp?command=reply&obj=0000000093B183274AFBD311AF1F005004458BD10700FD5B31C730D6D311AF12005004458BD10000000049C80000F14441D40E5AD3118886005004607AD100000017A48B0000";        
+    }
+          
+    else if (szCommand == "delete"){
+      window.location="commands.asp?command=delete&obj=0000000093B183274AFBD311AF1F005004458BD10700FD5B31C730D6D311AF12005004458BD10000000049C80000F14441D40E5AD3118886005004607AD100000017A48B0000";
+      
+    }
+     else if (szCommand == "replyall"){
+      window.location="commands.asp?command=replyall&obj=0000000093B183274AFBD311AF1F005004458BD10700FD5B31C730D6D311AF12005004458BD10000000049C80000F14441D40E5AD3118886005004607AD100000017A48B0000";
+      
+    }
+     else if (szCommand == "forward"){
+      window.location="commands.asp?command=forward&obj=0000000093B183274AFBD311AF1F005004458BD10700FD5B31C730D6D311AF12005004458BD10000000049C80000F14441D40E5AD3118886005004607AD100000017A48B0000";
+      
+    }
+     else if (szCommand == "replytofolder"){
+      window.location="commands.asp?command=replytofolder&obj=0000000093B183274AFBD311AF1F005004458BD10700FD5B31C730D6D311AF12005004458BD10000000049C80000F14441D40E5AD3118886005004607AD100000017A48B0000";
+      
+    }    
+
+
+    else if (szCommand == "close"){
+       window.close();
+    }
+    else if (szCommand == "next"){
+      
+      window.location="/exchange/item.asp?action=next";
+    }
+     else if (szCommand == "previous"){
+      
+      window.location="/exchange/item.asp?action=prev";
+    }
+
+}
+
+</Script>
+
+<BODY TEXT=000000 BGCOLOR=#c0c0c0 TOPMARGIN=4 LEFTMARGIN=4 text=000000 link=000000 vlink=000000 alink=000000>
+<!--- begin toolbar --------->
+<form>
+<TABLE BORDER=0 bgcolor=#c0c0c0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%">
+<tr>
+<td width=100%>
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+
+
+<A href="JavaScript:DoCommand('reply')">  
+<IMG SRC="/exchange/forms/reply.gif" Alt="Reply to sender" align="middle" border=0></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+<A href="JavaScript:DoCommand('replyall')">  
+<IMG SRC="/exchange/forms/replyall.gif" Alt="Reply to all" align="middle" border=0></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+
+<A HREF="JavaScript:DoCommand('replytofolder')">
+<IMG SRC="/exchange/forms/ReplyFld.gif" alt='Reply to folder' align="middle" WIDTH=24 HEIGHT=24 BORDER=0></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+
+
+<A href="JavaScript:DoCommand('forward')">  
+<IMG SRC="/exchange/forms/forward.gif" Alt="Forward" align="middle" border=0 height=24 width=24></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+<a href="JavaScript:parent.openNewWindow('/exchange/movcpy/root.asp?msgid=0000000093B183274AFBD311AF1F005004458BD10700FD5B31C730D6D311AF12005004458BD10000000049C80000F14441D40E5AD3118886005004607AD100000017A48B0000&folderid=0000000093B183274AFBD311AF1F005004458BD10100FD5B31C730D6D311AF12005004458BD10000000049C80000&process=1','newMessageWindow',400,400)">
+<IMG SRC="/exchange/forms/movcpy.gif" align="middle" Alt="Move/Copy" border=0 height=24 width=24></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+
+
+<A href="JavaScript:DoCommand('delete')">  
+<IMG SRC="/exchange/forms/delmark.gif" Alt='Delete' align="middle" border=0 height=24 width=24></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+
+
+<A href="JavaScript:DoCommand('previous')"> 
+<IMG SRC="/exchange/forms/prevmsg.gif" Alt="Read previous item" align="middle" border=0 width=24 height=24></a>
+
+<A href="JavaScript:DoCommand('next')">  
+<IMG SRC="/exchange/forms/nextmsg.gif" Alt='Read next item' align="middle" border=0 width=24 height=24></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+
+
+
+<A href="JAVASCRIPT:openNewWindow('/exchange/help/READMSG.HTM','inlineHelpWindow',600,400)">
+<IMG SRC="/exchange/images/help.gif" alt="Get help information on the current window" align="middle" border=0 height=20 width=20></a>
+
+<img src="/exchange/images/divider.gif" width=4 height=24 align="middle">
+</td>
+
+<td align="right">
+<input type="button" value="Close" onClick="DoCommand('close')">
+</td>
+
+</tr>
+
+</table>
+</form>
+<!--<br>-->
+<!--- begin header --->
+
+<TABLE border=0 cellpadding=3 cellspacing=0 width="100%" bgcolor=#c0c0c0>
+	<TR> 
+		<TD width=10% >
+			<font size=2><b>From:</b></font>
+		</TD>		
+		<TD colspan=3><font size=2>
+            flar@allandria.com
+                [SMTP:flar@allandria.com]
+            
+            &nbsp;
+            
+			</font></TD>
+	</TR>
+
+	<TR> 
+		<TD>
+			<font size=2><b>To:</b></font>
+		</TD>		
+		<TD colspan=3>
+			<font size=2>
+			khalfmann@libra.de&nbsp;
+			</font>
+		</TD>
+	</TR>
+	
+	<TR>
+		<TD><font size=2><b>Cc:</b></font>
+		</TD>		
+		<TD colspan=3><font size=2>
+			&nbsp;
+			</font>
+		</TD>
+	</TR>
+
+	<TR>
+		<TD> </TD>
+	</TR>
+
+	<TR>
+		<TD>
+			<font size=2><b>Subject:</b></font>
+		</TD>
+		<TD colspan=3>
+			<font size=2>
+			Re: RE2: HFS+ a bit Progress&nbsp;
+			</font>
+		</TD>
+    </TR>
+        
+    <TR>
+		<TD>
+			<font size=2><nobr><b>Sent:</b></nobr>
+		</TD>
+        <TD width=62% ><font size=2><nobr>
+			8/19/00 4:38 AM&nbsp;</nobr></font><br>
+		</TD>
+		<TD align=right>
+			<font size=2><nobr><b>Importance:</b></nobr>
+		</TD>
+        <TD align=right><font size=2><nobr>
+			Normal&nbsp;</nobr>
+			</font>
+		</TD>
+	</TR>
+
+	</TABLE>
+
+<!--- message text ----->
+	<TABLE width="100%" border=1 cellspacing=2 cellpadding=6>
+<TR>
+    
+	<TD BGCOLOR=white  width=100% height=300 valign=top colspan=2 >
+		
+<P><FONT SIZE=2>Halfmann, Klaus wrote:</FONT>
+<BR><FONT SIZE=2>&gt; Uhm, I found this one, I thougt that btree_head.reserved3</FONT>
+<BR><FONT SIZE=2>&gt; Would be [3] (reserverd_3_) but it actually is [16].</FONT>
+</P>
+
+<P><FONT SIZE=2>Ah, yes. The names reserved[23] just mean that they're the second</FONT>
+<BR><FONT SIZE=2>or third reserved block. I don't really like the struct member</FONT>
+<BR><FONT SIZE=2>names as given in official Apple definitions.</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; I still can not find these offset, can you tell me where in </FONT>
+<BR><FONT SIZE=2>&gt; dump1.txt I can find them ?</FONT>
+</P>
+
+<P><FONT SIZE=2>004dbf0: 0000 0000 0000 0000 0ff8 00f8 0078 000e&nbsp; .............x..</FONT>
+</P>
+
+<P><FONT SIZE=2>Here's the one for the header node in the catalog tree. The three</FONT>
+<BR><FONT SIZE=2>records are at the following offsets:</FONT>
+</P>
+
+<P><FONT SIZE=2>r1: 000e (14)</FONT>
+<BR><FONT SIZE=2>r2: 0078 (120)</FONT>
+<BR><FONT SIZE=2>r3: 00f8 (248)</FONT>
+</P>
+
+<P><FONT SIZE=2>Also, the free space begins at 0ff8.</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; Yes , I just started to grasp whats up with the extends overflow</FONT>
+<BR><FONT SIZE=2>&gt; file. I intended to add this functionality later. (Ill come</FONT>
+<BR><FONT SIZE=2>&gt; away without for some time I assume :)</FONT>
+</P>
+
+<P><FONT SIZE=2>Not a huge deal. Only a heavily fragmented filesystem ever uses</FONT>
+<BR><FONT SIZE=2>this. I don't have any HFS+ filesystems where this isn't empty.</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; I once wrote Apple Progs only (sigh) and know very well how</FONT>
+<BR><FONT SIZE=2>&gt; to do that :). Here are some suggestions Ill try when you dont</FONT>
+<BR><FONT SIZE=2>&gt; mind 'LiH0', 'Linu', 'LiH+' </FONT>
+</P>
+
+<P><FONT SIZE=2>Sounds fine. I guess I'll have to get some for the kernel as well,</FONT>
+<BR><FONT SIZE=2>whenever I actually make it write to the disk.</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; Hmm, Im on irc from about 08:00-17:00 EST (European Summer time) </FONT>
+<BR><FONT SIZE=2>&gt; at workdays (Mo-Fr). _Sometimes_ Im online via modem around </FONT>
+<BR><FONT SIZE=2>&gt; 18:00 - 20:00 EST (but only short, is somehwat costly ...)</FONT>
+<BR><FONT SIZE=2>&gt; </FONT>
+<BR><FONT SIZE=2>&gt; Can you be online at work ? </FONT>
+</P>
+
+<P><FONT SIZE=2>Yes, I have a very good net connection at work. I would be able</FONT>
+<BR><FONT SIZE=2>to catch the last couple hours of the time you are on that way.</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; Do you receive mails online ? If yes I could send you</FONT>
+<BR><FONT SIZE=2>&gt; a mail and upon a direct answer we could go online simultaneously.</FONT>
+</P>
+
+<P><FONT SIZE=2>I don't generally look at my personal email while I'm at work, but</FONT>
+<BR><FONT SIZE=2>I keep an eye on my work email. (bboyer@yahoo-inc.com)</FONT>
+</P>
+
+<P><FONT SIZE=2>I also am almost always logged in with Yahoo! messenger during the</FONT>
+<BR><FONT SIZE=2>day as well. I even have a linuxppc build of the client. (It isn't</FONT>
+<BR><FONT SIZE=2>on the official download site yet, but it should get added soon.)</FONT>
+<BR><FONT SIZE=2><A HREF="http://messenger.yahoo.com/" TARGET="_blank">http://messenger.yahoo.com/</A></FONT>
+</P>
+
+<P><FONT SIZE=2>I apologize for the shameless plug. I work for Yahoo!&nbsp; ;)</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; I plan to restructe the code a bit more. Id like to intodruce</FONT>
+<BR><FONT SIZE=2>&gt; files record.h/.c containing the code to acces the B-tree _Records_</FONT>
+<BR><FONT SIZE=2>&gt; and leave btree.h/.c for the structures _inside_ the Records. So</FONT>
+<BR><FONT SIZE=2>&gt; record would be something like:</FONT>
+<BR><FONT SIZE=2>&gt; typedef struct {</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; volume*&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; vol;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; hfsp_fork_raw*&nbsp;&nbsp;&nbsp; fork;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; btree_nodes_desc&nbsp; node;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; union {</FONT>
+<BR><FONT SIZE=2>&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; btree_head&nbsp; head;</FONT>
+<BR><FONT SIZE=2>&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... // not sure what Ill need here ...</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; } u;</FONT>
+<BR><FONT SIZE=2>&gt; } record;&nbsp;&nbsp; // or better node ?</FONT>
+<BR><FONT SIZE=2>&gt; </FONT>
+<BR><FONT SIZE=2>&gt; Btree would become something like:</FONT>
+<BR><FONT SIZE=2>&gt; typedef struct {</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; volume*&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vol;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; record&nbsp;&nbsp;&nbsp; &nbsp; rec;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; UInt64&nbsp;&nbsp;&nbsp; &nbsp; keyPos;// position of key in given record</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; hfsp_cat_key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; key;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; hfsp_cat_extry&nbsp;&nbsp;&nbsp; entry;&nbsp;&nbsp;&nbsp; // file, folder or whatever</FONT>
+<BR><FONT SIZE=2>&gt; } btree;</FONT>
+<BR><FONT SIZE=2>&gt; </FONT>
+<BR><FONT SIZE=2>&gt; Note that rec is not a pointer so that the btree can be used</FONT>
+<BR><FONT SIZE=2>&gt; to traverse different records (Like in your iterator code.)</FONT>
+<BR><FONT SIZE=2>&gt; </FONT>
+<BR><FONT SIZE=2>&gt; I target a code Sequence as follows:</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; volume&nbsp; vol;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; record&nbsp; catalog;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; btreee&nbsp; tree;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; UInt32&nbsp; cnid;</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; volume_open(&amp;vol, &quot;/dev/hdx&quot;, HFSP_READONLY);</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; record_open_catalog(&amp;catalog, &amp;vol);</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; btree_open(&amp;tree, &amp;catalog);</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; icnid = btree_find_recursive(&amp;tree, &quot;MyFile.txt&quot;);</FONT>
+<BR><FONT SIZE=2>&gt;&nbsp;&nbsp;&nbsp;&nbsp; btree_copy_data(&amp;tree, &quot;/home/user/MyFile.txt&quot;);</FONT>
+<BR><FONT SIZE=2>&gt; </FONT>
+<BR><FONT SIZE=2>&gt; This would be the core for a hfspcp tool ...</FONT>
+</P>
+
+<P><FONT SIZE=2>It seems more logical to me to have the following:</FONT>
+</P>
+
+<P><FONT SIZE=2>volume_open(&amp;vol, device, flags);</FONT>
+<BR><FONT SIZE=2>btree_open(&amp;tree, &amp;vol, CATALOG_CNID);</FONT>
+<BR><FONT SIZE=2>record_init(&amp;record, &amp;tree);</FONT>
+<BR><FONT SIZE=2>find_record(&amp;record, searchkey);</FONT>
+<BR><FONT SIZE=2>catrecord_copy_data(&amp;record, outfile);</FONT>
+</P>
+
+<P><FONT SIZE=2>This seems more in line with the actual relationships of the</FONT>
+<BR><FONT SIZE=2>on disk structures, whereas I would find the other way to</FONT>
+<BR><FONT SIZE=2>be somewhat misleading. In this case, the record would need</FONT>
+<BR><FONT SIZE=2>the tree rather than the fork, and the tree needs the fork.</FONT>
+<BR><FONT SIZE=2>However, I could just be biased by the way I wrote it.&nbsp; :)</FONT>
+</P>
+
+<P><FONT SIZE=2>&gt; Im writing this while going by train to my father 60s Birthday.</FONT>
+<BR><FONT SIZE=2>&gt; His brain is so full of cancer that he will not know this fact</FONT>
+<BR><FONT SIZE=2>&gt; anymore. Ill need some undisturbed time and X-Windows to make </FONT>
+<BR><FONT SIZE=2>&gt; these changes so I doubt I will do it this weekend, perhaps</FONT>
+<BR><FONT SIZE=2>&gt; I can spare some time next week.</FONT>
+</P>
+
+<P><FONT SIZE=2>I certainly understand not having the time to work on this stuff.</FONT>
+<BR><FONT SIZE=2>Hopefully I'll get a chance to analyze a bit more and figure out</FONT>
+<BR><FONT SIZE=2>where I'm wrong about how the filesystem works, since my code</FONT>
+<BR><FONT SIZE=2>is still pretty broken.</FONT>
+</P>
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <FONT SIZE=2>Brad Boyer</FONT>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <FONT SIZE=2>flar@pants.nu</FONT>
+</P>
+&nbsp;
+		 
+	</TD>
+    
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

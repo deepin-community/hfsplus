@@ -1,0 +1,46 @@
+Von: R Shapiro [rshapiro@bbn.com]
+Gesendet: Freitag, 29. September 2000 13:16
+An: Halfmann, Klaus
+Betreff: Re: AW(n+1): hfsplus 1.0.1 readonly should be complete
+
+Halfmann, Klaus writes:
+ > Please change it to 1.0.1 so we are in sync. 
+
+Done.
+
+
+ > Ill have word wit Suse
+ > now if I can get some ftp/telnet acces. 
+
+Does SuSE use rpms?  I thought it was specific to RedHat/linuxppc.com.
+
+
+ > Please send me that patch, Ill be happy to include it. (In fact I 
+ > might include everything needed to build an rpm. If you tell me how
+ > I can do it myself for the next release :)
+
+I attached the source rpm.  This includes the source tar (you don't
+need this obviously, but it's part of the package :), the patch file
+and the rpm spec file.
+
+To build the binary rpm from the source rpm do:
+
+  rpm --rebuild hfsplusutils-1.0.1-1.src.rpm
+
+This will leave the binary rpm in 
+
+ /usr/src/redhat/RPMS/ppc/hfsplusutils-1.0.1-1.ppc.rpm
+
+The binary rpm is what you would usually distribute.  I made the rpm
+to install your executables in /usr/bin and libs in /usr/lib, instead
+of /usr/local/bin and /usr/local/lib.  I was trying to make it as
+close as possible to the hfsutils rpm.  
+
+If you just want to look at the contents of the source rpm, do:
+
+ rpm -i hfsplusutils-1.0.1-1.src.rpm
+
+The spec will be installed in /usr/src/redhat/SPECS and the source tar
+and the patch will be installed in /usr/src/redhat/SOURCES.
+
+

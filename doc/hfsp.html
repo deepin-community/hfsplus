@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>What is HFS+</title>
+</head>
+<body>
+<h2>What is HFS+</h2>
+<p>  
+HFS+ is the new Filesystem intodruced my Apple around MacOS8.
+It became necessary because its predecessor, HFS, had a fixed numer
+of blocks (2^16), and on large volumes theses block became very
+large, wasting a lot of space. HFS+ solves this problem and
+intodruces some new concepts like Unicode file names.
+</p><p>
+Detailed Documentation can be found in
+<a href="http://developer.apple.com/technotes/tn/tn1150.html"
+>Technote 1150 HFS+ Volume format</a> and in
+<a href="http://developer.apple.com/techpubs/macos8/Files/FileManager/filemanager.html"
+>File Manager</a>.
+</p><p>
+In contrast to unix-like file Systems, HFS+ (and HFS+) work like indexes
+in a database. As with databases The index is composed of keys structered
+in a B*-Tree. (A B*Tree is basically a n-ary tree located in nodes on a volume.
+This way acces to any file is pretty fast at the price of a complex
+insert / delete management. I migt provide some O(..) notation
+here but dont want to get blamed by some Theoritican :) . 
+The B*-tree is composed of index nodes and leaf nodes. Index nodes
+contain ordered keys that point to deeper index- or leaf-nodes.
+Leaf nodes contain keys and associated file or folder records.
+The keys and records have variable length but an additional
+index at the end of every node allows indexed acces.
+</p><p>
+Apple places additional restrictions on the B*-Tree:<ul>
+<li> All leaf nodes are found a the same depth</li>
+<li> All nodes of the same depth are linked foreward and backward</li>
+<li> ... More I dont remember right now.</li>
+</ul>
+</p><p>
+The keys are composed of the unique id of the parent folder and
+the (specially encoded) unicode name of the file. The folder
+THREADS are needed to retrive the parent folder for a given
+folder id. Theese use an empty name and are simliar to the
+'.' directory in unix.
+</p><p>
+Files and the B*Trees themselfes are stored in forks. For files these
+are the Apple-like data- and resource-fork. With HFS+ every files
+may have up to 8 not continuos parts until the additional parts
+are found in the Extends record. This Extends record is used
+for the catalog file (fork) and other forks, too. So that theese
+have fixed record ids, too. 
+</p>
+<pre>
+    $Id: hfsp.html,v 1.1.1.1 2002/03/05 19:50:28 klaus Exp $
+</pre>
+</body>
+</html>

@@ -1,0 +1,13 @@
+Index: hfsplus/libhfsp/src/fscheck.h
+===================================================================
+--- hfsplus.orig/libhfsp/src/fscheck.h
++++ hfsplus/libhfsp/src/fscheck.h
+@@ -100,7 +100,7 @@ int fscheck_btree(btree *bt);
+ int fscheck_files(volume* vol);
+ 
+ /** global data used during fsck */
+-struct {
++static struct {
+     UInt32  maxCnid;
+     UInt32  macNow; // current date in mac-offset
+     int	    verbose;

@@ -1,0 +1,58 @@
+Von: Roman Zippel [zippel@fh-brandenburg.de]
+Gesendet: Mittwoch, 30. August 2000 03:10
+An: Alexander Viro
+Cc: Matthew Wilcox; Roman Zippel; linux-fsdevel; linux-kernel;
+linuxppc-dev@lists.linuxppc.org
+Betreff: Re: hfs support for blocksize != 512
+
+
+Hi,
+
+> > hfs. For example reading from a file might require a read from a btree
+> > file (extent file), with what another file write can be busy with (e.g.
+> > reordering the btree nodes).
+>
+> And?
+
+The point is: the thing I like about Linux is its simple interfaces, it's
+the basic idea of unix - keep it simple. That is true for most parts - the
+basic idea is simple and the real complexity is hidden behind it. But
+that's currently not true for vfs interface, a fs maintainer has to fight
+right now with fscking complex vfs interface and with a possible fscking
+complex fs implementation. E2fs or affs have a pretty simple structure and
+I believe you that it's not that hard to fix, maybe there is also a simple
+solution for hfs. But I'd like you to forget about that and think about
+the big picture (how Linus nicely states it). What we should aim at with
+the vfs interface is simplicity, I want to use a fscking simple semaphore
+to protect something like anywhere else, I don't want to juggle with lots
+blocks wich have to be updated atomically. Maybe you get once right, but
+it will follow you as a nightmare, you add one feature (e.g. quota), you
+add another feature (like btrees), you so still damned fscking sure to get
+and keeping it right?
+So and? What I'd really like to see from you is to be a bit more
+supportive for other peoples problems, I really don't expect you to solve
+these problems, but if someone approaches a different solution, you're
+pretty quick to refuse it.
+So lets get back to the vfs interface, fs currently have to do pretty much
+all there changes atomically, they have to grab all the buffers they need
+and do all changes at once. How can you be sure that this is possible for
+every possible fs? How do you make sure you don't create other problems
+like livelocks? We currently have problem that things like kswapd require
+an asynchronous interface, but fs prefer to synchronize it. Currently you
+pushing all the burden of an asynchronous interface into the fs, which
+want to rather avoid that. Why don't you think for a moment in the other
+direction? Currently I'm playing with the idea of a kernel thread for
+asynchronous io (maybe one per fs), that thread takes the io requests e.g.
+from kswapd and the io thread can safely sleep on it, while kswapd can
+continue its job, but I don't know yet, where to put, whether in the fs
+specific part or whether it can be made generic enough to be put into the
+generic part. Can we please think for a moment in that direction? At some
+point you have to synchronize the io anyway (at latest when it hits the
+device), but I would pretty much prefer if a fs would get some help at
+some earlier point.
+(Anyway, I need some sleep now as well... :) )
+
+bye, Roman
+
+
+** Sent via the linuxppc-dev mail list. See http://lists.linuxppc.org/

@@ -1,0 +1,66 @@
+  00..11..  NNAAMMEE
+
+  hhffsspp hhffsspplluuss - Collection of tools to acces HFS+ volumes.
+
+
+  00..22..  DDEESSCCRRIIPPTTIIOONN
+
+  The hfsplus collection cotains tools to read and display the files
+  found on an HFS+ formatted volume. HFS+ is the volume format
+  intodruced by Apple Computer inc. around MacOS 8. The HFS+ format uses
+  a better approach to acces large volumes and allows files with a size
+  up to 2^64 bytes. In Addition filenames are saved as two-byte unicode
+  with a length upto 255 (unicode) characters.
+
+  In contrast to its sucessor, the hfs-tools hfsplus does not use the
+  volume/directory/file/ syntax using ':' as delimiter but uses the
+  standard unix '/', '..' and '.' notation. Since this concept is not
+  fully supported my HFS+ not all combinations will be understood.
+
+
+  00..33..  EEXXAAMMPPLLEESS
+
+  This example mounts my main HFS+ volume shows some files and copies
+  one to the linux side:
+
+
+       > hpmount /dev/hda13
+       > hpls
+       Apple Extras     Desktop Folder   MP3              Systemordner
+       Benutzer         Develop          Programme        Temporary Items
+       Bibel            Dokumente        Spiele           VM Storage
+       > hpcd Develop
+       > hpcd Test
+       > hppwd
+       /Aida/Develop/Test
+       hpcopy -t Test.cp .
+       > hpumount
+
+
+
+
+
+  00..44..  FFIILLEESS
+
+  $$HHOOMMEE//..hhffsspplluussvvoolluummee This file is created by hpmount and removed by
+  hpunmount. It contains the volume name and the current directory id.
+
+
+  00..55..  BBUUGGSS
+
+  There are some bugs related to uniocde handling and the large file
+  sizes not supported by some older formats (binhex, macbinary).  See
+  the developer documenatation for details
+
+
+  00..66..  SSEEEE AALLSSOO
+
+  hpmount(1), hpumount(1), hpls(1), hpcd(1), hppwd(1), hpcopy(1)
+
+
+  00..77..  AAUUTTHHOORRSS
+
+  Klaus Halfmann  <halfmann@libra.de>
+
+
+

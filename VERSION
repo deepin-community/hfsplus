@@ -1,0 +1,7 @@
+1.0.4
+
+Please keep in sync with HPUTILS_VERS 
+in libhfsp/src/libhfsp.h
+
+*** Version number must be on line 1 ***
+(configure.in uses "head -1" to extract it)

@@ -1,0 +1,6 @@
+18725ae
+   25ce	< perm
+   25de < Dinfo
+   25ee < DXinfo
+   2606
+

@@ -1,0 +1,22 @@
+Hello Brad,
+
+I think I have another bit of progress now.
+    -> All record_read_... methods are ok
+    -> All record__print_... methods are ok.
+    -> I started the first attempts for binary search
+       (in one node)
+I now understand why record_treads are neede, the
+work like the '.' nodes in unix. But Im unsure
+what the file_threads are neede for, perphaps
+for the (yet unused) attributes fork ?
+
+Ill Test the binary search etc and then will look ahead to support
+the INDX nodes. 
+
+Did you ever have a look at the hfsutils ?. As soon as an
+ls is possible Id like to copy the hfsmount and hfsls commands
+and transform them into hfspmount and hfspls. In case you
+want to help you might start here ...
+
+Greetings
+	Klaus Halfmann (aka Hasi)    
